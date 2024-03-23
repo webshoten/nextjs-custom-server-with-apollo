@@ -1,0 +1,10 @@
+query Todo {
+  getTodo {
+    id
+    title
+    content
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

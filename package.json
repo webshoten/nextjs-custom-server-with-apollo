@@ -3,25 +3,51 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "ts-node --project tsconfig.server.json server/index.ts",
+    "build:next": "next build",
+    "build:server": "tsc --project tsconfig.server.json",
+    "start": "NODE_ENV=production node dist/index.js",
+    "drizzle:generate": "drizzle-kit generate:pg --config=./drizzle.config.ts",
+    "drizzle:push": "drizzle-kit push:pg --config=./drizzle.config.ts",
+    "drizzle:introspect": "drizzle-kit introspect:pg --config=./drizzle.config.ts",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.9",
+    "@apollo/experimental-nextjs-app-support": "^0.9.0",
+    "@apollo/server": "^4.10.1",
+    "@graphql-codegen/typescript": "^4.0.6",
+    "@graphql-codegen/typescript-graphql-request": "^6.2.0",
+    "@graphql-codegen/typescript-operations": "^4.2.0",
+    "apollo-server": "^3.13.0",
+    "apollo-server-express": "^3.13.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.30.2",
+    "express": "^4.18.3",
+    "graphql": "^16.8.1",
+    "next": "14.1.3",
+    "postgres": "^3.4.3",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.1.3"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^18",
+    "@graphql-codegen/cli": "5.0.2",
+    "@graphql-codegen/client-preset": "4.2.4",
+    "@graphql-codegen/introspection": "4.0.3",
+    "@types/express": "^4.17.21",
+    "@types/express-serve-static-core": "^4.17.43",
+    "@types/graphql": "^14.5.0",
+    "@types/node": "^20.11.26",
+    "@types/react": "^18.2.65",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "drizzle-kit": "^0.20.14",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.3",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.3"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
   }
 }
