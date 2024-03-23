@@ -2,7 +2,26 @@ import { setTimeout } from 'timers/promises'
 import { getClient } from '../../lib/client'
 import { TodoQuery, TodoDocument } from '../../graphql/generated/graphql'
 
-export async function ServerComponent() {
+export function FB_RSC() {
+  const boxStyle = {
+    width: '400px',
+    height: '300px',
+    backgroundColor: '#636363',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '5px',
+  }
+  const textStyle = { color: 'white', footSize: 'larger', fontWeight: 'bold' }
+
+  return (
+    <div style={boxStyle}>
+      <p style={textStyle}>loading...</p>
+    </div>
+  )
+}
+
+export async function RSC() {
   // クエリ
   const { data: queryData } = await getClient().query<TodoQuery>({
     query: TodoDocument,
@@ -15,6 +34,7 @@ export async function ServerComponent() {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    margin: '5px',
   }
   const textStyle = { color: 'white', footSize: 'larger', fontWeight: 'bold' }
   console.log('Server Componentを実行しています')

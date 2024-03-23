@@ -1,4 +1,4 @@
-import { ServerComponent } from './components/sc'
+import { RSC, FB_RSC } from './components/RSC'
 import React, { Suspense } from 'react'
 
 export default async function Home() {
@@ -6,9 +6,11 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div>
-        Hello World
-        <Suspense fallback={<div>Loading...</div>}>
-          <ServerComponent />
+        <Suspense fallback={<FB_RSC />}>
+          <RSC />
+        </Suspense>
+        <Suspense fallback={<FB_RSC />}>
+          <RSC />
         </Suspense>
       </div>
     </main>
