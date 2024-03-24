@@ -10,5 +10,7 @@ services:
       - db-store:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=passw0rd
+    networks:
+        - default
 volumes:
   db-store:

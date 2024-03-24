@@ -39,3 +39,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 CREATE DATABASE postgres; 
+
+
+
+
+docker build -t express-ts .
+docker run -p 3001:3001 express-ts
+docker container stop fef37fb8b1d6
+docker exec -it fef37fb8b1d6 /bin/bash
