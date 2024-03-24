@@ -6,7 +6,7 @@
     "dev": "ts-node --project tsconfig.server.json server/index.ts",
     "build:next": "next build",
     "build:server": "tsc --project tsconfig.server.json",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start": "NODE_ENV=production ts-node dist/index.js",
     "drizzle:generate": "drizzle-kit generate:pg --config=./drizzle.config.ts",
     "drizzle:push": "drizzle-kit push:pg --config=./drizzle.config.ts",
     "drizzle:introspect": "drizzle-kit introspect:pg --config=./drizzle.config.ts",

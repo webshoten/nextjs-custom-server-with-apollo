@@ -9,9 +9,6 @@ export default async function Home() {
         <Suspense fallback={<FB_RSC />}>
           <RSC />
         </Suspense>
-        <Suspense fallback={<FB_RSC />}>
-          <RSC />
-        </Suspense>
       </div>
     </main>
   )
