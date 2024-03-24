@@ -1,4 +1,3 @@
-import { setTimeout } from 'timers/promises'
 import { getClient } from '../../lib/client'
 import { TodoQuery, TodoDocument } from '../../graphql/generated/graphql'
 
@@ -22,39 +21,34 @@ export function FB_RSC() {
 }
 
 export async function RSC() {
+  try {
+    const { data: queryData, error } = await getClient().query<TodoQuery>({
+      query: TodoDocument,
+    })
 
- try {
-   await getClient().query<TodoQuery>({
-     query: TodoDocument,
-   })
- } catch (error) {
-   return <>error</>
- }
+    const boxStyle = {
+      width: '400px',
+      height: '300px',
+      backgroundColor: '#006400',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: '5px',
+    }
+    const textStyle = { color: 'white', footSize: 'larger', fontWeight: 'bold' }
+    console.log('Server Componentを実行しています')
 
-  // クエリ
-  const { data: queryData, error } = await getClient().query<TodoQuery>({
-    query: TodoDocument,
-  })
+    if (error) {
+      return <>error</>
+    }
 
-  const boxStyle = {
-    width: '400px',
-    height: '300px',
-    backgroundColor: '#006400',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '5px',
-  }
-  const textStyle = { color: 'white', footSize: 'larger', fontWeight: 'bold' }
-  console.log('Server Componentを実行しています')
-
-  if (error) {
+    return (
+      <div style={boxStyle}>
+        <p style={textStyle}>{queryData.getTodo?.title}</p>
+      </div>
+    )
+  } catch (error) {
+    /** build時にfetch error **/
     return <>error</>
   }
-
-  return (
-    <div style={boxStyle}>
-      <p style={textStyle}>{queryData.getTodo?.title}</p>
-    </div>
-  )
 }
