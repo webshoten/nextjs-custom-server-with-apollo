@@ -22,8 +22,17 @@ export function FB_RSC() {
 }
 
 export async function RSC() {
+
+ try {
+   await getClient().query<TodoQuery>({
+     query: TodoDocument,
+   })
+ } catch (error) {
+   return <>error</>
+ }
+
   // クエリ
-  const { data: queryData } = await getClient().query<TodoQuery>({
+  const { data: queryData, error } = await getClient().query<TodoQuery>({
     query: TodoDocument,
   })
 
@@ -38,6 +47,10 @@ export async function RSC() {
   }
   const textStyle = { color: 'white', footSize: 'larger', fontWeight: 'bold' }
   console.log('Server Componentを実行しています')
+
+  if (error) {
+    return <>error</>
+  }
 
   return (
     <div style={boxStyle}>
