@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14
+    container_name: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=passw0rd
+    networks:
+      - default
+  app:
+    build: ./
+    image: express-next:1.0
+    container_name: express-next
+    environment:
+      - DATABASE_URL=postgresql://postgres:passw0rd@postgres:5432/postgres
+    tty: true
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./:/work
+    working_dir: /work
+volumes:
+  db-store:

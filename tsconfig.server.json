@@ -6,5 +6,6 @@
       "moduleResolution": "Node"
     }
   },
-  "include": ["server"] // TSコンパイラにserverディレクトリのみをコンパイル対象として認識させる。
+  "include": ["server"], // TSコンパイラにserverディレクトリのみをコンパイル対象として認識させる。
+  "exclude": ["node_modules"]
 }
