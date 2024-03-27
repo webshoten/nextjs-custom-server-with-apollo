@@ -15,6 +15,20 @@
       "when": 1710731861493,
       "tag": "0001_clammy_pixie",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1711547805340,
+      "tag": "0002_majestic_black_cat",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1711550362564,
+      "tag": "0003_slimy_swordsman",
+      "breakpoints": true
     }
   ]
 }

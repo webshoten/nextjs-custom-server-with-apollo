@@ -18,7 +18,13 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  createTodo?: Maybe<Todo>;
   getTodo?: Maybe<Todo>;
+};
+
+
+export type QueryCreateTodoArgs = {
+  input?: InputMaybe<TodoInput>;
 };
 
 export type Todo = {
@@ -29,6 +35,11 @@ export type Todo = {
   id?: Maybe<Scalars['ID']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
+export type TodoInput = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TodoQueryVariables = Exact<{ [key: string]: never; }>;

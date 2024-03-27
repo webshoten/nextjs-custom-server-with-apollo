@@ -4,6 +4,7 @@ import {
   serial,
   timestamp,
   varchar,
+  date,
 } from 'drizzle-orm/pg-core'
 
 const id = {

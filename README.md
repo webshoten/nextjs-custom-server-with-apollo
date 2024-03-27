@@ -47,3 +47,12 @@ docker build -t express-ts .
 docker run -p 3001:3001 express-ts
 docker container stop 9c846d0ea99b
 docker exec -it 8550ca80e551 sh
+
+
+
+docker-compose up db
+docker-compose rm -fsv db
+
+
+npm run drizzle:generate
+npm run drizzle:push

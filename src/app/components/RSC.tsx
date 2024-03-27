@@ -9,7 +9,7 @@ export function FB_RSC() {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: '5px',
+    margin: '1px',
   }
   const textStyle = { color: 'white', footSize: 'larger', fontWeight: 'bold' }
 
@@ -27,13 +27,13 @@ export async function RSC() {
     })
 
     const boxStyle = {
-      width: '400px',
-      height: '300px',
+      width: 'max-width',
+      height: '500px',
       backgroundColor: '#006400',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      margin: '5px',
+      margin: '1px',
     }
     const textStyle = { color: 'white', footSize: 'larger', fontWeight: 'bold' }
     console.log('Server Componentを実行しています')
