@@ -1,10 +1,10 @@
-query Todo {
-  getTodo {
-    id
-    title
+query Todo($input: GetTodoInput) {
+  getTodo(input: $input) {
     content
     createdAt
-    updatedAt
     deletedAt
+    id
+    title
+    updatedAt
   }
 }

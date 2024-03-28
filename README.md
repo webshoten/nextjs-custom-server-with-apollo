@@ -50,7 +50,7 @@ docker exec -it 8550ca80e551 sh
 
 
 
-docker-compose up db
+docker-compose up -d db
 docker-compose rm -fsv db
 
 

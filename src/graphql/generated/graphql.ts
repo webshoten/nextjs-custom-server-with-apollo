@@ -16,6 +16,15 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type CreateTodoInput = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GetTodoInput = {
+  id: Scalars['ID']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   createTodo?: Maybe<Todo>;
@@ -24,7 +33,12 @@ export type Query = {
 
 
 export type QueryCreateTodoArgs = {
-  input?: InputMaybe<TodoInput>;
+  input?: InputMaybe<CreateTodoInput>;
+};
+
+
+export type QueryGetTodoArgs = {
+  input?: InputMaybe<GetTodoInput>;
 };
 
 export type Todo = {
@@ -32,20 +46,17 @@ export type Todo = {
   content?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
   deletedAt?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
+  id: Scalars['ID']['output'];
   title?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
-export type TodoInput = {
-  content?: InputMaybe<Scalars['String']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type TodoQueryVariables = Exact<{ [key: string]: never; }>;
+export type TodoQueryVariables = Exact<{
+  input?: InputMaybe<GetTodoInput>;
+}>;
 
 
-export type TodoQuery = { __typename?: 'Query', getTodo?: { __typename?: 'Todo', id?: string | null, title?: string | null, content?: string | null, createdAt?: string | null, updatedAt?: string | null, deletedAt?: string | null } | null };
+export type TodoQuery = { __typename?: 'Query', getTodo?: { __typename?: 'Todo', content?: string | null, createdAt?: string | null, deletedAt?: string | null, id: string, title?: string | null, updatedAt?: string | null } | null };
 
 
-export const TodoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Todo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTodo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<TodoQuery, TodoQueryVariables>;
+export const TodoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Todo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GetTodoInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTodo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<TodoQuery, TodoQueryVariables>;

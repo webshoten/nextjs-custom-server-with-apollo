@@ -1,6 +1,6 @@
 import { ApolloServer, BaseContext } from '@apollo/server'
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
-import Todo, { CreateTodoInputType } from './model/todo'
+import Todo, { CreateTodoInputType, GetTodoInputType } from './model/todo'
 
 class GraphQL {
   private todo: Todo
@@ -10,7 +10,7 @@ class GraphQL {
 
   private typeDefs = `
   type Todo {
-    id: ID
+    id: ID!
     title: String
     content: String
     createdAt: String
@@ -22,15 +22,21 @@ class GraphQL {
     title: String
     content: String
   }
+
+  input GetTodoInput {
+    id: ID!
+  }
   
   type Query {
-    getTodo: Todo
+    getTodo(input: GetTodoInput): Todo
     createTodo(input: CreateTodoInput): Todo
   }
   `
   private resolvers = {
     Query: {
-      getTodo: () => this.todo.getTodo(),
+      getTodo: (root: any, { input }: { input: GetTodoInputType }) => {
+        return this.todo.getTodo(input)
+      },
       createTodo: (root: any, { input }: { input: CreateTodoInputType }) =>
         this.todo.createTodo(input),
     },

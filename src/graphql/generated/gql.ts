@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "query Todo {\n  getTodo {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}": types.TodoDocument,
+    "query Todo($input: GetTodoInput) {\n  getTodo(input: $input) {\n    content\n    createdAt\n    deletedAt\n    id\n    title\n    updatedAt\n  }\n}": types.TodoDocument,
 };
 
 /**
@@ -33,7 +33,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query Todo {\n  getTodo {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"): (typeof documents)["query Todo {\n  getTodo {\n    id\n    title\n    content\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"];
+export function graphql(source: "query Todo($input: GetTodoInput) {\n  getTodo(input: $input) {\n    content\n    createdAt\n    deletedAt\n    id\n    title\n    updatedAt\n  }\n}"): (typeof documents)["query Todo($input: GetTodoInput) {\n  getTodo(input: $input) {\n    content\n    createdAt\n    deletedAt\n    id\n    title\n    updatedAt\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

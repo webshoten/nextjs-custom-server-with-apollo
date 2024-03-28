@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm'
 import { todo } from '../../db/model'
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
 import { setTimeout } from 'timers/promises'
@@ -16,6 +17,10 @@ export type CreateTodoInputType = {
   content: string
 }
 
+export type GetTodoInputType = {
+  id: number
+}
+
 class Todo {
   private db
 
@@ -23,8 +28,14 @@ class Todo {
     this.db = db
   }
 
-  getTodo = async () => {
-    const res = await this.db.select().from(todo).limit(1)
+  getTodo = async (input: GetTodoInputType) => {
+    await setTimeout(1000)
+
+    const res = await this.db
+      .select()
+      .from(todo)
+      .where(eq(todo.id, input.id))
+      .limit(1)
     return res[0]
   }
 
