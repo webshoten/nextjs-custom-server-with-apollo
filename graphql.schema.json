@@ -3,7 +3,9 @@
     "queryType": {
       "name": "Query"
     },
-    "mutationType": null,
+    "mutationType": {
+      "name": "Mutation"
+    },
     "subscriptionType": null,
     "types": [
       {
@@ -90,7 +92,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "Query",
+        "name": "Mutation",
         "description": null,
         "fields": [
           {
@@ -117,7 +119,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Query",
+        "description": null,
+        "fields": [
           {
             "name": "getTodo",
             "description": null,

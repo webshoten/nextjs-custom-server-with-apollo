@@ -29,6 +29,9 @@ class GraphQL {
   
   type Query {
     getTodo(input: GetTodoInput): Todo
+  }
+
+  type Mutation {
     createTodo(input: CreateTodoInput): Todo
   }
   `
@@ -37,6 +40,8 @@ class GraphQL {
       getTodo: (root: any, { input }: { input: GetTodoInputType }) => {
         return this.todo.getTodo(input)
       },
+    },
+    Mutation: {
       createTodo: (root: any, { input }: { input: CreateTodoInputType }) =>
         this.todo.createTodo(input),
     },

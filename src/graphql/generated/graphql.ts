@@ -25,15 +25,19 @@ export type GetTodoInput = {
   id: Scalars['ID']['input'];
 };
 
-export type Query = {
-  __typename?: 'Query';
+export type Mutation = {
+  __typename?: 'Mutation';
   createTodo?: Maybe<Todo>;
-  getTodo?: Maybe<Todo>;
 };
 
 
-export type QueryCreateTodoArgs = {
+export type MutationCreateTodoArgs = {
   input?: InputMaybe<CreateTodoInput>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  getTodo?: Maybe<Todo>;
 };
 
 
@@ -51,6 +55,13 @@ export type Todo = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type CreateTodoMutationVariables = Exact<{
+  input?: InputMaybe<CreateTodoInput>;
+}>;
+
+
+export type CreateTodoMutation = { __typename?: 'Mutation', createTodo?: { __typename?: 'Todo', content?: string | null, createdAt?: string | null, deletedAt?: string | null, id: string, title?: string | null, updatedAt?: string | null } | null };
+
 export type TodoQueryVariables = Exact<{
   input?: InputMaybe<GetTodoInput>;
 }>;
@@ -59,4 +70,5 @@ export type TodoQueryVariables = Exact<{
 export type TodoQuery = { __typename?: 'Query', getTodo?: { __typename?: 'Todo', content?: string | null, createdAt?: string | null, deletedAt?: string | null, id: string, title?: string | null, updatedAt?: string | null } | null };
 
 
+export const CreateTodoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateTodo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTodoInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTodo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<CreateTodoMutation, CreateTodoMutationVariables>;
 export const TodoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Todo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GetTodoInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTodo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<TodoQuery, TodoQueryVariables>;

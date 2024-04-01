@@ -1,4 +1,4 @@
-import { getClient } from '../../lib/client'
+import { getRscClient } from '../../lib/rscClient'
 import { TodoQuery, TodoDocument } from '../../graphql/generated/graphql'
 
 export function FB_RSC() {
@@ -11,7 +11,7 @@ export function FB_RSC() {
 
 export async function RSC() {
   try {
-    const { data: queryData, error } = await getClient().query<TodoQuery>({
+    const { data: queryData, error } = await getRscClient().query<TodoQuery>({
       query: TodoDocument,
       variables: { input: { id: 1 } },
     })

@@ -1,0 +1,10 @@
+mutation CreateTodo($input: CreateTodoInput) {
+  createTodo(input: $input) {
+    content
+    createdAt
+    deletedAt
+    id
+    title
+    updatedAt
+  }
+}
