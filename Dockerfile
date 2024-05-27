@@ -5,7 +5,8 @@ WORKDIR /work
 
 # ビルド用の依存パッケージをインストール
 COPY package*.json ./
-RUN npm install
+RUN npm install -g npm
+RUN npm ci
 
 # TypeScript コードをコピーしてビルド
 COPY . ./
@@ -16,12 +17,12 @@ RUN npm run build
 FROM node:18.17.0-alpine as runner
 WORKDIR /work
 
-ENV DATABASE_URL postgresql://postgres:passw0rd@localhost:5432/postgres
+ENV DATABASE_URL postgresql://booking_owner:pmbkF5JGM9Hn@ep-green-sea-a1babh2r.ap-southeast-1.aws.neon.tech/booking?sslmode=require
 EXPOSE 3001
 
 # 本番環境用のパッケージをインストール
 COPY package*.json ./
-RUN npm install && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 # builder からビルド結果だけコピー
 COPY --from=builder /work/dist ./dist

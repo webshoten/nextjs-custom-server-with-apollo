@@ -1,10 +1,13 @@
 import { ApolloServer, BaseContext } from '@apollo/server'
-import { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
+/** local DB **/
+//import { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
+/** neon DB **/
+import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import Todo, { CreateTodoInputType, GetTodoInputType } from './model/todo'
 
 class GraphQL {
   private todo: Todo
-  constructor(db: PostgresJsDatabase<Record<string, never>>) {
+  constructor(db: NeonHttpDatabase<Record<string, never>>) {
     this.todo = new Todo(db)
   }
 

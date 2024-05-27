@@ -18,6 +18,7 @@ export function RCC() {
   }
 
   const handleClick = async () => {
+    debugger
     const input: CreateTodoMutationVariables = {
       input: { content: val, title: 'xxx' },
     }

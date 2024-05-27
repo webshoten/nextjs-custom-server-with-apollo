@@ -1,6 +1,9 @@
 import { eq } from 'drizzle-orm'
 import { todo } from '../../db/model'
-import { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
+/** local DB **/
+//import { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
+/** neon DB **/
+import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import { setTimeout } from 'timers/promises'
 
 export type TodoType = {
@@ -24,7 +27,7 @@ export type GetTodoInputType = {
 class Todo {
   private db
 
-  constructor(db: PostgresJsDatabase<Record<string, never>>) {
+  constructor(db: NeonHttpDatabase<Record<string, never>>) {
     this.db = db
   }
 
