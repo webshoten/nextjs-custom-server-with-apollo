@@ -18,7 +18,7 @@ FROM node:18.17.0-alpine as runner
 WORKDIR /work
 
 ENV DATABASE_URL postgresql://booking_owner:pmbkF5JGM9Hn@ep-green-sea-a1babh2r.ap-southeast-1.aws.neon.tech/booking?sslmode=require
-EXPOSE 3001
+EXPOSE 8080
 
 # 本番環境用のパッケージをインストール
 COPY package*.json ./

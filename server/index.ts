@@ -10,7 +10,7 @@ import GraphQL from './graphql'
 const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({ dev })
 const handle = nextApp.getRequestHandler()
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 8080
 
 async function main() {
   const graphQl = new GraphQL(db)
