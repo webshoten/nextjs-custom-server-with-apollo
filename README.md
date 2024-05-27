@@ -56,3 +56,9 @@ docker-compose rm -fsv db
 
 npm run drizzle:generate
 npm run drizzle:push
+
+
+gcloud auth login
+gcloud config set project xxxxx
+gcloud builds submit --tag gcr.io/xxxxx/helloworld 
+gcloud run deploy --image gcr.io/xxxxx/helloworld --platform managed --region asia-northeast1 --update-env-vars DATABASE_URL=*************** 

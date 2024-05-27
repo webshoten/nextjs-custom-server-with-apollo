@@ -29,7 +29,7 @@ COPY --from=builder /work/dist ./dist
 COPY --from=builder /work/tsconfig.build.json ./tsconfig.build.json
 COPY --from=builder /work/tsconfig.json ./tsconfig.json
 COPY --from=builder /work/.next ./.next
-COPY --from=builder /work/.env ./.env
+#COPY --from=builder /work/.env ./.env
 RUN chmod 777 tsconfig.build.json
 RUN chmod 777 tsconfig.json
 
