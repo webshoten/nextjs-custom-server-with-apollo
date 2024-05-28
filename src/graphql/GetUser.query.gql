@@ -2,7 +2,9 @@ query User($input: GetUserInput) {
   getUser(input: $input) {
     userId
     name
-    fedId
+    email
+    sub
+    provider
     userType
     createdAt
     updatedAt

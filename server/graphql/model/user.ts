@@ -6,8 +6,10 @@ import {} from '../../../src/graphql/generated'
 export type UserType = {
     userId: number
     name: string
-    fedId: string
+    email:string
+    sub: string
     userType: string
+    provider: string
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
@@ -19,10 +21,20 @@ export type GetUserInputType = {
     }
 }
 
+export type GetUserBySubInputType = {
+    input:{
+      sub: string
+    }
+}
+
+
+
 export type CreateUserInputType = {
     input:{
       name:string
-      fedId:string
+      email:string
+      sub:string
+      provider:string
       userType:string
     }
 }
@@ -39,6 +51,15 @@ class User {
           .select()
           .from(user)
           .where(eq(user.userId, param.input.userId))
+          .limit(1)
+        return res[0]
+    }
+
+    getUserBySub = async (param:GetUserBySubInputType) => {
+        const res = await this.db
+          .select()
+          .from(user)
+          .where(eq(user.sub, param.input.sub))
           .limit(1)
         return res[0]
     }

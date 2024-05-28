@@ -1,5 +1,5 @@
 import { getRscClient } from '../../lib/rscClient'
-import { UserQuery,UserDocument,UserQueryVariables } from '../../graphql/generated/graphql'
+import { UserQuery,UserDocument,GoogleLoginMutation,GoogleLoginDocument } from '../../graphql/generated/graphql'
 
 export function FB_RSC() {
   return (
@@ -19,8 +19,6 @@ export async function RSC() {
     if (error) {
       return <>error</>
     }
-
-    debugger
 
     return (
       <div>

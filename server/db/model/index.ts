@@ -10,7 +10,9 @@ import {
 export const user = pgTable('user', {
   userId: serial('userId').primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
-  fedId:varchar('fedId', { length: 256 }).notNull(),
+  email: varchar('email', { length: 256 }).notNull(),
+  sub:varchar('sub', { length: 256 }).notNull(),
+  provider: varchar('provider', { length: 20 }).notNull(),
   userType: varchar('userType', { length: 20 }).notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),

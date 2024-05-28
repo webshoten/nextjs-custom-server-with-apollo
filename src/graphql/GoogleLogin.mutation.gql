@@ -1,5 +1,5 @@
-mutation CreateUser($input: CreateUserInput) {
-  createUser(input: $input) {
+mutation GoogleLogin($input: GoogleLoginInput) {
+  googleLogin(input: $input) {
     userId
     name
     email

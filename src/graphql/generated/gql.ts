@@ -13,8 +13,9 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "mutation CreateUser($input: CreateUserInput) {\n  createUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}": types.CreateUserDocument,
-    "query User($input: GetUserInput) {\n  getUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}": types.UserDocument,
+    "mutation CreateUser($input: CreateUserInput) {\n  createUser(input: $input) {\n    userId\n    name\n    email\n    sub\n    provider\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}": types.CreateUserDocument,
+    "query User($input: GetUserInput) {\n  getUser(input: $input) {\n    userId\n    name\n    email\n    sub\n    provider\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}": types.UserDocument,
+    "mutation GoogleLogin($input: GoogleLoginInput) {\n  googleLogin(input: $input) {\n    userId\n    name\n    email\n    sub\n    provider\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}": types.GoogleLoginDocument,
 };
 
 /**
@@ -34,11 +35,15 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation CreateUser($input: CreateUserInput) {\n  createUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"): (typeof documents)["mutation CreateUser($input: CreateUserInput) {\n  createUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"];
+export function graphql(source: "mutation CreateUser($input: CreateUserInput) {\n  createUser(input: $input) {\n    userId\n    name\n    email\n    sub\n    provider\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"): (typeof documents)["mutation CreateUser($input: CreateUserInput) {\n  createUser(input: $input) {\n    userId\n    name\n    email\n    sub\n    provider\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query User($input: GetUserInput) {\n  getUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"): (typeof documents)["query User($input: GetUserInput) {\n  getUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"];
+export function graphql(source: "query User($input: GetUserInput) {\n  getUser(input: $input) {\n    userId\n    name\n    email\n    sub\n    provider\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"): (typeof documents)["query User($input: GetUserInput) {\n  getUser(input: $input) {\n    userId\n    name\n    email\n    sub\n    provider\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation GoogleLogin($input: GoogleLoginInput) {\n  googleLogin(input: $input) {\n    userId\n    name\n    email\n    sub\n    provider\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"): (typeof documents)["mutation GoogleLogin($input: GoogleLoginInput) {\n  googleLogin(input: $input) {\n    userId\n    name\n    email\n    sub\n    provider\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
