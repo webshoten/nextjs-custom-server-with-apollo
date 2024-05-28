@@ -1,5 +1,5 @@
 import { getRscClient } from '../../lib/rscClient'
-import { TodoQuery, TodoDocument } from '../../graphql/generated/graphql'
+import { UserQuery,UserDocument,UserQueryVariables } from '../../graphql/generated/graphql'
 
 export function FB_RSC() {
   return (
@@ -11,20 +11,20 @@ export function FB_RSC() {
 
 export async function RSC() {
   try {
-    const { data: queryData, error } = await getRscClient().query<TodoQuery>({
-      query: TodoDocument,
-      variables: { input: { id: 1 } },
+    const { data: queryData, error } = await getRscClient().query<UserQuery>({
+      query: UserDocument,
+      variables: { input: { userId:2 } } ,
     })
-
-    console.log('Server Componentを実行しています')
 
     if (error) {
       return <>error</>
     }
 
+    debugger
+
     return (
       <div>
-        <p>{queryData.getTodo?.title}</p>
+        <p>{JSON.stringify(queryData.getUser)}</p>
       </div>
     )
   } catch (error) {

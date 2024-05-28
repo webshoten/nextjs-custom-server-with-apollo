@@ -1,0 +1,11 @@
+query User($input: GetUserInput) {
+  getUser(input: $input) {
+    userId
+    name
+    fedId
+    userType
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

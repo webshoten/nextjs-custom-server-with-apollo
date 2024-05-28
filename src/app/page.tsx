@@ -1,5 +1,4 @@
 import { RSC, FB_RSC } from './components/RSC'
-import { RCC } from './components/RCC'
 import React, { Suspense } from 'react'
 
 export default async function Home() {
@@ -9,9 +8,6 @@ export default async function Home() {
         <Suspense fallback={<FB_RSC />}>
           <RSC />
         </Suspense>
-      </div>
-      <div>
-        <RCC />
       </div>
     </main>
   )

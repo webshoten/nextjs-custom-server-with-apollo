@@ -7,15 +7,6 @@ import {
   date,
 } from 'drizzle-orm/pg-core'
 
-export const todo = pgTable('todo', {
-  id: serial('id').primaryKey(),
-  title: varchar('title', { length: 20 }).notNull(),
-  content: varchar('content', { length: 256 }).notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
-  deletedAt: timestamp('deleted_at'),
-})
-
 export const user = pgTable('user', {
   userId: serial('userId').primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),

@@ -13,8 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "mutation CreateTodo($input: CreateTodoInput) {\n  createTodo(input: $input) {\n    content\n    createdAt\n    deletedAt\n    id\n    title\n    updatedAt\n  }\n}": types.CreateTodoDocument,
-    "query Todo($input: GetTodoInput) {\n  getTodo(input: $input) {\n    content\n    createdAt\n    deletedAt\n    id\n    title\n    updatedAt\n  }\n}": types.TodoDocument,
+    "mutation CreateUser($input: CreateUserInput) {\n  createUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}": types.CreateUserDocument,
+    "query User($input: GetUserInput) {\n  getUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}": types.UserDocument,
 };
 
 /**
@@ -34,11 +34,11 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation CreateTodo($input: CreateTodoInput) {\n  createTodo(input: $input) {\n    content\n    createdAt\n    deletedAt\n    id\n    title\n    updatedAt\n  }\n}"): (typeof documents)["mutation CreateTodo($input: CreateTodoInput) {\n  createTodo(input: $input) {\n    content\n    createdAt\n    deletedAt\n    id\n    title\n    updatedAt\n  }\n}"];
+export function graphql(source: "mutation CreateUser($input: CreateUserInput) {\n  createUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"): (typeof documents)["mutation CreateUser($input: CreateUserInput) {\n  createUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query Todo($input: GetTodoInput) {\n  getTodo(input: $input) {\n    content\n    createdAt\n    deletedAt\n    id\n    title\n    updatedAt\n  }\n}"): (typeof documents)["query Todo($input: GetTodoInput) {\n  getTodo(input: $input) {\n    content\n    createdAt\n    deletedAt\n    id\n    title\n    updatedAt\n  }\n}"];
+export function graphql(source: "query User($input: GetUserInput) {\n  getUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"): (typeof documents)["query User($input: GetUserInput) {\n  getUser(input: $input) {\n    userId\n    name\n    fedId\n    userType\n    createdAt\n    updatedAt\n    deletedAt\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

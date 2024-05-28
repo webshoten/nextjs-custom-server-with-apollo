@@ -20,12 +20,12 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CreateTodoInput",
+        "name": "CreateUserInput",
         "description": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "content",
+            "name": "fedId",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -37,7 +37,19 @@
             "deprecationReason": null
           },
           {
-            "name": "title",
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userType",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -55,12 +67,12 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "GetTodoInput",
+        "name": "GetUserInput",
         "description": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "id",
+            "name": "userId",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -96,7 +108,7 @@
         "description": null,
         "fields": [
           {
-            "name": "createTodo",
+            "name": "createUser",
             "description": null,
             "args": [
               {
@@ -104,7 +116,7 @@
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "CreateTodoInput",
+                  "name": "CreateUserInput",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -114,7 +126,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Todo",
+              "name": "User",
               "ofType": null
             },
             "isDeprecated": false,
@@ -132,7 +144,7 @@
         "description": null,
         "fields": [
           {
-            "name": "getTodo",
+            "name": "getUser",
             "description": null,
             "args": [
               {
@@ -140,7 +152,7 @@
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "GetTodoInput",
+                  "name": "GetUserInput",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -150,7 +162,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Todo",
+              "name": "User",
               "ofType": null
             },
             "isDeprecated": false,
@@ -174,21 +186,9 @@
       },
       {
         "kind": "OBJECT",
-        "name": "Todo",
+        "name": "User",
         "description": null,
         "fields": [
-          {
-            "name": "content",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "createdAt",
             "description": null,
@@ -214,7 +214,43 @@
             "deprecationReason": null
           },
           {
-            "name": "id",
+            "name": "fedId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userId",
             "description": null,
             "args": [],
             "type": {
@@ -230,19 +266,7 @@
             "deprecationReason": null
           },
           {
-            "name": "title",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "updatedAt",
+            "name": "userType",
             "description": null,
             "args": [],
             "type": {

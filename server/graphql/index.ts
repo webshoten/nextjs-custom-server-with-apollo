@@ -3,50 +3,53 @@ import { ApolloServer, BaseContext } from '@apollo/server'
 //import { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
 /** neon DB **/
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
-import Todo, { CreateTodoInputType, GetTodoInputType } from './model/todo'
+import User, {CreateUserInputType,GetUserInputType} from './model/user'
 
 class GraphQL {
-  private todo: Todo
+  private user: User
+
   constructor(db: NeonHttpDatabase<Record<string, never>>) {
-    this.todo = new Todo(db)
+    this.user = new User(db)
   }
 
   private typeDefs = `
-  type Todo {
-    id: ID!
-    title: String
-    content: String
+  type User {
+    userId: ID!
+    name: String
+    fedId: String
+    userType: String
     createdAt: String
     updatedAt: String
     deletedAt: String
   }
 
-  input CreateTodoInput {
-    title: String
-    content: String
+  input GetUserInput {
+    userId: ID!
   }
 
-  input GetTodoInput {
-    id: ID!
+  input CreateUserInput {
+    name: String
+    fedId: String
+    userType: String
   }
-  
+
   type Query {
-    getTodo(input: GetTodoInput): Todo
+    getUser(input: GetUserInput): User
   }
 
   type Mutation {
-    createTodo(input: CreateTodoInput): Todo
+    createUser(input: CreateUserInput): User
   }
   `
   private resolvers = {
     Query: {
-      getTodo: (root: any, { input }: { input: GetTodoInputType }) => {
-        return this.todo.getTodo(input)
-      },
+      getUser: (root: any, param:GetUserInputType) => {
+        return this.user.getUser(param)
+      }
     },
     Mutation: {
-      createTodo: (root: any, { input }: { input: CreateTodoInputType }) =>
-        this.todo.createTodo(input),
+      createUser: (root: any, param:CreateUserInputType) =>
+        this.user.createUser(param),
     },
   }
 
