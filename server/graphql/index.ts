@@ -5,7 +5,7 @@ import { ApolloServer, BaseContext,GraphQLServerContext } from '@apollo/server'
 /** neon DB **/
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import {OAuth2Client} from 'google-auth-library'
-import User, {CreateUserInputType,GetUserInputType,} from './model/user'
+import User, {GetUserInputType} from './model/user'
 import Google,{VerifyGoogleInputType} from './auth/google'
 import nookies,{destroyCookie,setCookie} from 'nookies'
 
