@@ -3,7 +3,6 @@
 import { useEffect,useState } from 'react'
 import client from '../../lib/client'
 import { UserQuery,UserDocument} from '../../graphql/generated/graphql'
-import {graphql,DocumentType} from  '../../graphql/generated/gql'
 
 export function FB_RCC() {
   return (
@@ -18,21 +17,23 @@ type Props = {
 }
 
 export function RCC(props:Props) {
-  const [user, setUser] = useState({}); 
+  const [user, setUser] = useState<UserQuery>({}); 
 
   const handle = async () => {
     const { data: queryData, errors } = await client.query<UserQuery>({
       query: UserDocument,
       variables: { input: { sub:props.sub } } ,
     })
-    setUser(queryData) 
+    return queryData
   }
 
-  handle()
+  handle().then((data)=>{
+    setUser(data) 
+  })
 
-   return (
+  return (
     <div>
-      <p>{user?.getUser?.name}の予約を開始します</p>
+      {Object.keys(user).length !== 0 ? <p>{user?.getUser?.name}の予約を開始します</p> : <>Loading...</>}
     </div>
   )
 }

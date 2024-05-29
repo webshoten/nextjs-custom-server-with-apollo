@@ -1,4 +1,4 @@
-import { Request } from 'express'
+import { Request,Response } from 'express'
 import { ApolloServer, BaseContext,GraphQLServerContext } from '@apollo/server'
 /** local DB **/
 //import { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
@@ -7,7 +7,7 @@ import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import {OAuth2Client} from 'google-auth-library'
 import User, {CreateUserInputType,GetUserInputType,} from './model/user'
 import Google,{VerifyGoogleInputType} from './auth/google'
-import nookies from 'nookies'
+import nookies,{destroyCookie} from 'nookies'
 
 
 class GraphQL {
@@ -50,6 +50,7 @@ class GraphQL {
 
   type Mutation {
     googleLogin(input: GoogleLoginInput): User
+    googleLogout: Boolean
   }
   `
   private resolvers = {
@@ -81,6 +82,14 @@ class GraphQL {
         }else{
           return user;
         }
+      },
+      googleLogout:async (root: any,{},ctx:{req:Request,res:Response}) =>{
+        try {
+          destroyCookie({res:ctx.res},"idToken")
+          return true
+        } catch (error) {
+          return false
+        }
       }
     },
   }
@@ -106,8 +115,6 @@ class GraphQL {
     if(!me) return false
     return true
   }
-
-
 }
 
 export default GraphQL

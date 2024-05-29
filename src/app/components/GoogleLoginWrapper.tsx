@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { GoogleLoginMutation,GoogleLoginDocument } from '../../graphql/generated/graphql'
 import client from '../../lib/client'
-export function Login(props:{ setUser: Dispatch<SetStateAction<GoogleLoginMutation>> }) {
+export function GoogleLoginWrapper(props:{ setUser: Dispatch<SetStateAction<GoogleLoginMutation>> }) {
  
     return (
         <GoogleLogin

@@ -4,7 +4,12 @@ import { IsAuthByIdTokenQuery,IsAuthByIdTokenDocument } from '../../graphql/gene
 import {getRscClient} from '../../lib/rscClient'
 import { redirect } from "next/navigation";
 
-export const Auth = (WrapedComponent:any) => {
+/**
+ * High Order Component
+ * @param WrapedComponent 
+ * @returns 
+ */
+export const HoCAuth = (WrapedComponent: any) => {
     const withAuth:any = async (props:any) => {
         const idToken = cookies().get("idToken")?.value
      
@@ -14,10 +19,11 @@ export const Auth = (WrapedComponent:any) => {
                 variables:{ input: { idToken: idToken } }
             },
         )
+
         if(queryData.isAuthByIdToken){
             return (<WrapedComponent {...props}/>)
         }else{
-            redirect(`/`);
+            redirect(`/login`);
         }
     }
 
