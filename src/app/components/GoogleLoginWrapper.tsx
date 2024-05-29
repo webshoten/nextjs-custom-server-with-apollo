@@ -1,6 +1,5 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { Dispatch, SetStateAction } from "react";
-import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { GoogleLoginMutation,GoogleLoginDocument } from '../../graphql/generated/graphql'
 import client from '../../lib/client'
 export function GoogleLoginWrapper(props:{ setUser: Dispatch<SetStateAction<GoogleLoginMutation>> }) {

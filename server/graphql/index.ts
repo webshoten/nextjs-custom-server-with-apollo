@@ -71,7 +71,8 @@ class GraphQL {
           maxAge: 60 * 60,
           secure: true,
           path: '/',
-          httpOnly:true
+          httpOnly:true,
+          sameSite:'Lax'
         }); 
 
         const res = await this.oauth2.verifyGoogle({input:{idToken:p.input?.idToken}})
