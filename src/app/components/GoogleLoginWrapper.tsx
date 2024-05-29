@@ -9,18 +9,6 @@ export function GoogleLoginWrapper(props:{ setUser: Dispatch<SetStateAction<Goog
         <GoogleLogin
             onSuccess={ async credentialResponse => {
 
-                // Parse
-                const cookies = parseCookies()
-                console.log({ cookies })
-
-                const options = {
-                    maxAge: 60 * 60,
-                    secure: true,
-                    path: '/',
-                }
-            
-                if (credentialResponse.credential) setCookie(null, 'idToken', credentialResponse.credential, options);       
-
                 const { data: queryData, errors } = await client.mutate<GoogleLoginMutation>(
                     {
                         mutation: GoogleLoginDocument,

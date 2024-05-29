@@ -7,7 +7,7 @@ import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import {OAuth2Client} from 'google-auth-library'
 import User, {CreateUserInputType,GetUserInputType,} from './model/user'
 import Google,{VerifyGoogleInputType} from './auth/google'
-import nookies,{destroyCookie} from 'nookies'
+import nookies,{destroyCookie,setCookie} from 'nookies'
 
 
 class GraphQL {
@@ -66,6 +66,14 @@ class GraphQL {
     Mutation: {
       googleLogin:async (root: any,p:VerifyGoogleInputType,ctx:{req:Request,res:Response}) =>{
         if(!p.input?.idToken) throw "no idToken"
+
+        setCookie({res:ctx.res}, 'idToken', p.input?.idToken, {
+          maxAge: 60 * 60,
+          secure: true,
+          path: '/',
+          httpOnly:true
+        }); 
+
         const res = await this.oauth2.verifyGoogle({input:{idToken:p.input?.idToken}})
         const user = await this.user.getUserBySub({input:{sub:res.getPayload()?.sub || ''}})
         if(!user){
