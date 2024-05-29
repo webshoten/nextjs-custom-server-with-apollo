@@ -1,25 +1,29 @@
-import { ApolloServer, BaseContext } from '@apollo/server'
+import { Request } from 'express'
+import { ApolloServer, BaseContext,GraphQLServerContext } from '@apollo/server'
 /** local DB **/
 //import { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
 /** neon DB **/
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
-import User, {CreateUserInputType,GetUserInputType,GetUserBySubInputType} from './model/user'
 import {OAuth2Client} from 'google-auth-library'
+import User, {CreateUserInputType,GetUserInputType,} from './model/user'
+import Google,{VerifyGoogleInputType} from './auth/google'
+import nookies from 'nookies'
+
 
 class GraphQL {
   private user: User
-  private client = new OAuth2Client(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)
+  private oauth2: Google
 
-  constructor(db: NeonHttpDatabase<Record<string, never>>) {
+  constructor(db: NeonHttpDatabase<Record<string, never>>,oauth2:OAuth2Client) {
     this.user = new User(db)
+    this.oauth2 = new Google(oauth2)
   }
 
   private typeDefs = `
   type User {
-    userId: ID!
+    sub: String!
     name: String
     email: String
-    sub: String
     provider: String
     userType: String
     createdAt: String
@@ -28,20 +32,12 @@ class GraphQL {
   }
 
   input GetUserInput {
-    userId: ID!
+    sub: String!
   }
 
-  input GetUserBySubInput {
-    sub: String
-  }
-
-  input CreateUserInput {
-    name: String
-    email: String
-    sub: String
-    provider: String
-    userType: String
-  }
+  input GetUserInput {
+    sub: String!
+  }  
 
   input GoogleLoginInput {
     idToken: String
@@ -49,31 +45,28 @@ class GraphQL {
 
   type Query {
     getUser(input: GetUserInput): User
-    getUserBySub(input: GetUserBySubInput): User
+    isAuthByIdToken(input: GoogleLoginInput): Boolean
   }
 
   type Mutation {
-    createUser(input: CreateUserInput): User
     googleLogin(input: GoogleLoginInput): User
   }
   `
   private resolvers = {
     Query: {
-      getUser: (root: any, param:GetUserInputType) => {
-        return this.user.getUser(param)
+      getUser: async (root:any,param:GetUserInputType,ctx:{req:Request,res:Response}) => {
+        if(!this.isAuthByCookie(ctx))throw "no auth"
+        return await this.user.getUser(param)
       },
-      getUserBySub: (root: any, param:GetUserBySubInputType) => {
-        return this.user.getUserBySub(param)
-      }
+      isAuthByIdToken: async (root:any,param:VerifyGoogleInputType,ctx:{req:Request,res:Response}) => {
+        return await this.isAuthByIdToken(param)
+      },
     },
     Mutation: {
-      createUser: (root: any, param:CreateUserInputType) =>
-        this.user.createUser(param),
-      googleLogin:async (root: any, {input}:{input:{idToken:string}}) =>{
-        console.log(input)
-        const res = await this.client.verifyIdToken({idToken:input.idToken,audience:process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID})
+      googleLogin:async (root: any,p:VerifyGoogleInputType,ctx:{req:Request,res:Response}) =>{
+        if(!p.input?.idToken) throw "no idToken"
+        const res = await this.oauth2.verifyGoogle({input:{idToken:p.input?.idToken}})
         const user = await this.user.getUserBySub({input:{sub:res.getPayload()?.sub || ''}})
-        let createdUser
         if(!user){
           const param = {
             input:{
@@ -84,8 +77,7 @@ class GraphQL {
               userType:'default'
             }
           }
-          createdUser = await this.user.createUser(param)
-          return createdUser;
+          return await this.user.createUser(param)
         }else{
           return user;
         }
@@ -97,6 +89,25 @@ class GraphQL {
     typeDefs: this.typeDefs,
     resolvers: this.resolvers,
   })
+
+  private isAuthByCookie = async (ctx:{req:Request,res:Response}) => {
+    const cookie = nookies.get(ctx)
+    if(!cookie?.idToken) throw "no idToken"
+    const res = await this.oauth2.verifyGoogle({input:{idToken:cookie?.idToken}})
+    const me = await this.user.getUserBySub({input:{sub:res.getPayload()?.sub || ''}})
+    if(!me) return false
+    return true
+  }
+
+  private isAuthByIdToken = async (param:VerifyGoogleInputType) => {
+    if(!param.input.idToken) return false
+    const res = await this.oauth2.verifyGoogle({input:{idToken:param.input.idToken}})
+    const me = await this.user.getUserBySub({input:{sub:res.getPayload()?.sub || ''}})
+    if(!me) return false
+    return true
+  }
+
+
 }
 
 export default GraphQL

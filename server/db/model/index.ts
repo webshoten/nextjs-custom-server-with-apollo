@@ -8,10 +8,9 @@ import {
 } from 'drizzle-orm/pg-core'
 
 export const user = pgTable('user', {
-  userId: serial('userId').primaryKey(),
+  sub: varchar('sub', { length: 256 }).primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
   email: varchar('email', { length: 256 }).notNull(),
-  sub:varchar('sub', { length: 256 }).notNull(),
   provider: varchar('provider', { length: 20 }).notNull(),
   userType: varchar('userType', { length: 20 }).notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
@@ -23,7 +22,7 @@ export const book = pgTable('book', {
   bookId: serial('bookId').primaryKey(),
   day: integer('day').notNull(),
   time: integer('time').notNull(),
-  userId: integer('userId').references(() => user.userId),
+  sub: varchar('sub').references(() => user.sub),
   bookType: varchar('userType', { length: 20 }).notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),

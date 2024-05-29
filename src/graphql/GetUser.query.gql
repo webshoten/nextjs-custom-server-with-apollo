@@ -1,9 +1,8 @@
 query User($input: GetUserInput) {
   getUser(input: $input) {
-    userId
+    sub
     name
     email
-    sub
     provider
     userType
     createdAt

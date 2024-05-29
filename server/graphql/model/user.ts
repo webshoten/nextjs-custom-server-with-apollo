@@ -1,13 +1,13 @@
 import { eq } from 'drizzle-orm'
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
+import {OAuth2Client} from 'google-auth-library'
 import {user} from '../../db/model'
 import {} from '../../../src/graphql/generated'
 
 export type UserType = {
-    userId: number
+    sub: string
     name: string
     email:string
-    sub: string
     userType: string
     provider: string
     createdAt: Date
@@ -17,7 +17,7 @@ export type UserType = {
 
 export type GetUserInputType = {
     input:{
-      userId: number
+      sub: string
     }
 }
 
@@ -27,13 +27,11 @@ export type GetUserBySubInputType = {
     }
 }
 
-
-
 export type CreateUserInputType = {
     input:{
+      sub:string
       name:string
       email:string
-      sub:string
       provider:string
       userType:string
     }
@@ -50,7 +48,7 @@ class User {
         const res = await this.db
           .select()
           .from(user)
-          .where(eq(user.userId, param.input.userId))
+          .where(eq(user.sub, param.input.sub))
           .limit(1)
         return res[0]
     }

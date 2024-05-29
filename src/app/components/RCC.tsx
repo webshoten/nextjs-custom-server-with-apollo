@@ -1,60 +1,38 @@
-'use client'
+"use client"
 
-// import { useEffect, useRef, useState } from 'react'
-// import client from '../../lib/client'
+import { useEffect,useState } from 'react'
+import client from '../../lib/client'
+import { UserQuery,UserDocument} from '../../graphql/generated/graphql'
+import {graphql,DocumentType} from  '../../graphql/generated/gql'
 
-// import {
-//   CreateTodoMutation,
-//   CreateTodoDocument,
-//   CreateTodoMutationVariables,
-// } from '../../graphql/generated/graphql'
+export function FB_RCC() {
+  return (
+    <div>
+      <p>loading...</p>
+    </div>
+  )
+}
 
-// export function RCC() {
-//   const myRef = useRef<HTMLTextAreaElement>(null)
-//   const [val, setVal] = useState('')
-//   const [rows, setRows] = useState(1)
-//   const handleChange = (e: any) => {
-//     setVal(e.target.value)
-//   }
+type Props = {
+  sub: string
+}
 
-//   const handleClick = async () => {
-//     debugger
-//     const input: CreateTodoMutationVariables = {
-//       input: { content: val, title: 'xxx' },
-//     }
-//     const { data: queryData, errors } = await client.mutate<CreateTodoMutation>(
-//       {
-//         mutation: CreateTodoDocument,
-//         variables: { ...input },
-//       }
-//     )
+export function RCC(props:Props) {
+  const [user, setUser] = useState({}); 
 
-//     console.log('end')
-//   }
+  const handle = async () => {
+    const { data: queryData, errors } = await client.query<UserQuery>({
+      query: UserDocument,
+      variables: { input: { sub:props.sub } } ,
+    })
+    setUser(queryData) 
+  }
 
-//   useEffect(() => {
-//     if (myRef.current) {
-//       console.log(myRef.current.value)
-//       let obj = myRef.current.value.match(/\n/g)
-//       setRows(obj === null ? 1 : obj.length + 1)
-//     }
-//   }, [val])
+  handle()
 
-//   return (
-//     <div className="w-screen min-h-screen grid place-items-center bg-gray-400">
-//       <div className=" w-[30rem] rounded flex flex-col">
-//         <button onClick={handleClick} className=" bg-white">
-//           send
-//         </button>
-//         <textarea
-//           className="resize-none focus:outline-none font-bold rounded-sm overflow-y-hidden"
-//           rows={rows}
-//           placeholder="Your message"
-//           value={val}
-//           onChange={handleChange}
-//           ref={myRef}
-//         ></textarea>
-//       </div>
-//     </div>
-//   )
-// }
+   return (
+    <div>
+      <p>{user?.getUser?.name}の予約を開始します</p>
+    </div>
+  )
+}

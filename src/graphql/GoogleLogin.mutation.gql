@@ -1,9 +1,8 @@
 mutation GoogleLogin($input: GoogleLoginInput) {
   googleLogin(input: $input) {
-    userId
+    sub
     name
     email
-    sub
     provider
     userType
     createdAt
