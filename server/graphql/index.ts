@@ -145,18 +145,6 @@ class GraphQL {
     if (!me) return false
     return true
   }
-
-  private isAuthByIdToken = async (param: VerifyGoogleInputType) => {
-    if (!param.input.idToken) return false
-    const res = await this.oauth2.verifyGoogle({
-      input: { idToken: param.input.idToken },
-    })
-    const me = await this.user.getUserBySub({
-      input: { sub: res.getPayload()?.sub || '' },
-    })
-    if (!me) return false
-    return true
-  }
 }
 
 export default GraphQL
