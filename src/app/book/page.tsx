@@ -1,6 +1,6 @@
 'use client'
 
-import { HoCAuth } from '../components/HoCAuth'
+import { HoCAuth } from '../components/auth/HoCAuth'
 import { RCC } from '../components/RCC'
 
 type Props = {

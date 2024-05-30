@@ -50,7 +50,7 @@ class GraphQL {
 
   type Query {
     getUser(input: GetUserInput): User
-    isAuthByCookie: Boolean
+    getAuthSubByCookie: String
   }
 
   type Mutation {
@@ -65,15 +65,15 @@ class GraphQL {
         param: GetUserInputType,
         ctx: { req: Request; res: Response },
       ) => {
-        if (!this.isAuthByCookie(ctx)) throw 'no auth'
+        if (!this.getAuthSubByCookie(ctx)) throw 'no auth'
         return await this.user.getUser(param)
       },
-      isAuthByCookie: async (
+      getAuthSubByCookie: async (
         root: unknown,
         {},
         ctx: { req: Request; res: Response },
       ) => {
-        return await this.isAuthByCookie(ctx)
+        return await this.getAuthSubByCookie(ctx)
       },
     },
     Mutation: {
@@ -133,17 +133,17 @@ class GraphQL {
     resolvers: this.resolvers,
   })
 
-  private isAuthByCookie = async (ctx: { req: Request; res: Response }) => {
+  private getAuthSubByCookie = async (ctx: { req: Request; res: Response }) => {
     const cookie = nookies.get(ctx)
-    if (!cookie?.idToken) return false
+    if (!cookie?.idToken) return null
     const res = await this.oauth2.verifyGoogle({
       input: { idToken: cookie?.idToken },
     })
     const me = await this.user.getUserBySub({
       input: { sub: res.getPayload()?.sub || '' },
     })
-    if (!me) return false
-    return true
+    if (!me) return null
+    return res.getPayload()?.sub
   }
 }
 

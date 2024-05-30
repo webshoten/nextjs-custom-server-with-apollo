@@ -2,7 +2,7 @@
 import React, {useState,useEffect} from 'react'
 import { useRouter } from 'next/navigation';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import {GoogleLoginWrapper} from '../components/GoogleLoginWrapper'
+import { GoogleLoginWrapper } from '../components/auth/GoogleLoginWrapper'
 import type {
   GoogleLoginMutation,
   GoogleLogoutMutation,

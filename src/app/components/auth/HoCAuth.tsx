@@ -1,8 +1,8 @@
 'use client'
 
-import IsAuth from '@/app/components/IsAuth'
+import IsAuth from '@/app/components/auth/IsAuth'
 import { ApolloProvider } from '@apollo/client'
-import client from '../../lib/client'
+import client from '../../../lib/client'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Props = any
 

@@ -27,10 +27,12 @@ export function RCC(props:Props) {
     })
     return queryData
   }
+  if (props.sub) {
+    handle().then((data) => {
+      setUser(data)
+    })
+  }
 
-  handle().then((data)=>{
-    setUser(data) 
-  })
 
   return (
     <div>

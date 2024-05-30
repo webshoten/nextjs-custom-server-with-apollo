@@ -3,7 +3,7 @@
 import Navbar from '@/app/components/Navbar'
 import Sidebar from '@/app/components/Sidebar'
 import { useState } from 'react'
-import { HoCAuth } from './components/HoCAuth'
+import { HoCAuth } from './components/auth/HoCAuth'
 
 type Props = {
   params: { [key: string]: string }
