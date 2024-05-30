@@ -36,7 +36,7 @@ const IsAuth = ({ children }: Props) => {
       {loading && (
         <>
           <div className="my-20 flex justify-center">
-            <div className="size-8 animate-spin rounded-xl bg-blue-300"></div>
+            <div className="size-72 animate-spin rounded-xl bg-custom-blue"></div>
           </div>
         </>
       )}
