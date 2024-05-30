@@ -42,7 +42,7 @@ export default function Login(props:Props) {
 
   return (
     <main>
-      <div className="grid min-h-screen w-screen place-items-center bg-gray-400">
+      <div className="grid min-h-screen w-screen place-items-center bg-custom-blue">
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}
         >

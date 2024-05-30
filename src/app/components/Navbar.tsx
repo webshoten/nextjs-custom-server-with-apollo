@@ -17,7 +17,7 @@ export default function Navbar(props: { onToggle: () => void }) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M4 6h16M4 12h16m-7 6h7"
               ></path>
             </svg>

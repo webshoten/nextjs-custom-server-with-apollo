@@ -1,10 +1,7 @@
 'use client'
 
-import Navbar from '@/app/components/Navbar'
-import Sidebar from '@/app/components/Sidebar'
-import { useEffect, useState } from 'react'
 import { HoCAuth } from './components/auth/HoCAuth'
-import { UseWindowSize } from './hooks/UseWindowSize'
+import Layout from './components/Layout'
 
 type Props = {
   params: { [key: string]: string }
@@ -12,22 +9,9 @@ type Props = {
 }
 
 export default HoCAuth(function Home(props: Props) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-  const { width } = UseWindowSize()
-  console.log(width)
-
-  useEffect(() => {
-    if (width <= 640) {
-      setIsSidebarOpen(false)
-    } else {
-      setIsSidebarOpen(true)
-    }
-  }, [width])
-
   return (
     <>
-      <Navbar onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
-      {isSidebarOpen && <Sidebar />}
+      <Layout {...props}>tttxxx</Layout>
     </>
   )
 })
