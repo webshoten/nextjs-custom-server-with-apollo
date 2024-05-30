@@ -1,7 +1,6 @@
 import { eq } from 'drizzle-orm'
 import type { NeonHttpDatabase } from 'drizzle-orm/neon-http'
-import {user} from '../../db/model'
-import {} from '../../../src/graphql/generated'
+import { user } from '../../db/model'
 
 export type UserType = {
     sub: string

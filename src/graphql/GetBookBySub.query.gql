@@ -1,0 +1,11 @@
+query GetBookBySub($input: GetBookBySubInput) {
+  getBookBySub(input: $input) {
+    bookId
+    day
+    time
+    sub
+    bookType
+    createdAt
+    updatedAt
+  }
+}

@@ -10,7 +10,7 @@ function Sidebar(props: Props) {
     <div className="absolute block size-full bg-custom-blue/90  text-white shadow-md sm:w-64 sm:bg-custom-blue  ">
       <nav className="text-base font-semibold ">
         <Link
-          href=""
+          href="/login"
           className="block p-4 hover:bg-gray-50 hover:text-custom-blue"
         >
           ログインへ

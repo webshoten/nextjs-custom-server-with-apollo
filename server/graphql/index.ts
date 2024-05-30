@@ -11,9 +11,12 @@ import type { VerifyGoogleInputType } from './auth/google'
 import Google from './auth/google'
 import type { GetUserInputType } from './model/user'
 import User from './model/user'
+import type { GetBookBySubInputType } from './model/book'
+import Book from './model/book'
 
 class GraphQL {
   private user: User
+  private book: Book
   private oauth2: Google
 
   constructor(
@@ -21,6 +24,7 @@ class GraphQL {
     oauth2: OAuth2Client,
   ) {
     this.user = new User(db)
+    this.book = new Book(db)
     this.oauth2 = new Google(oauth2)
   }
 
@@ -36,6 +40,16 @@ class GraphQL {
     deletedAt: String
   }
 
+  type Book {
+    bookId: String!
+    day: Int
+    time: Int
+    sub: String
+    bookType: String
+    createdAt: String
+    updatedAt: String
+  }
+
   input GetUserInput {
     sub: String!
   }
@@ -48,9 +62,14 @@ class GraphQL {
     idToken: String
   }
 
+  input GetBookBySubInput {
+    sub: String!
+  }
+
   type Query {
     getUser(input: GetUserInput): User
     getAuthSubByCookie: String
+    getBookBySub(input: GetBookBySubInput): [Book]
   }
 
   type Mutation {
@@ -74,6 +93,13 @@ class GraphQL {
         ctx: { req: Request; res: Response },
       ) => {
         return await this.getAuthSubByCookie(ctx)
+      },
+      getBookBySub: async (
+        root: unknown,
+        param: GetBookBySubInputType,
+        ctx: { req: Request; res: Response },
+      ) => {
+        return await this.book.getBookBySub(param)
       },
     },
     Mutation: {

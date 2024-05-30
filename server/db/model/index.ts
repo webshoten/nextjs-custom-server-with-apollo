@@ -23,7 +23,7 @@ export const book = pgTable('book', {
   day: integer('day').notNull(),
   time: integer('time').notNull(),
   sub: varchar('sub').references(() => user.sub),
-  bookType: varchar('userType', { length: 20 }).notNull(),
+  bookType: varchar('bookType', { length: 20 }).notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
