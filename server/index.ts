@@ -1,9 +1,10 @@
-import express, { Request, Response } from 'express'
-import next from 'next'
-import cors from 'cors'
 import { expressMiddleware } from '@apollo/server/express4'
+import cors from 'cors'
 import 'dotenv/config'
-import {OAuth2Client} from 'google-auth-library' 
+import type { Request, Response } from 'express'
+import express from 'express'
+import { OAuth2Client } from 'google-auth-library'
+import next from 'next'
 
 import { db } from './db'
 import GraphQL from './graphql'
@@ -15,7 +16,7 @@ const handle = nextApp.getRequestHandler()
 const port = process.env.PORT || 8080
 
 async function main() {
-  const graphQl = new GraphQL(db,oauth2)
+  const graphQl = new GraphQL(db, oauth2)
   await graphQl.apolloServer.start()
   try {
     await nextApp.prepare()
@@ -25,23 +26,21 @@ async function main() {
       '/graphql',
       cors<cors.CorsRequest>(),
       express.json(),
-      expressMiddleware(graphQl.apolloServer,
-        {
-          context: async ({req:Request,res:Response}) => {
-            return {
-              req:Request,
-              res:Response,
-            }
-          },
-        }
-      )
+      expressMiddleware(graphQl.apolloServer, {
+        context: async ({ req: Request, res: Response }) => {
+          return {
+            req: Request,
+            res: Response,
+          }
+        },
+      }),
     )
 
     app.all('*', (req: Request, res: Response) => {
       return handle(req, res)
     })
 
-    app.listen(port, (err?: any) => {
+    app.listen(port, (err?: unknown) => {
       if (err) throw err
       console.log(`> Ready on localhost:${port} - env ${process.env.NODE_ENV}`)
     })

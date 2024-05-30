@@ -2,7 +2,8 @@
 
 import { useEffect,useState } from 'react'
 import client from '../../lib/client'
-import { UserQuery,UserDocument} from '../../graphql/generated/graphql'
+import type { UserQuery } from '../../graphql/generated/graphql'
+import { UserDocument } from '../../graphql/generated/graphql'
 
 export function FB_RCC() {
   return (

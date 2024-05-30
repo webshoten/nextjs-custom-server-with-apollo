@@ -1,6 +1,5 @@
 import { eq } from 'drizzle-orm'
-import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
-import {OAuth2Client} from 'google-auth-library'
+import type { NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import {user} from '../../db/model'
 import {} from '../../../src/graphql/generated'
 

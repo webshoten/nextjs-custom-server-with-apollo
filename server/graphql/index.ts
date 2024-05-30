@@ -1,20 +1,25 @@
-import { Request,Response } from 'express'
-import { ApolloServer, BaseContext,GraphQLServerContext } from '@apollo/server'
+import type { BaseContext } from '@apollo/server'
+import { ApolloServer } from '@apollo/server'
+import type { Request, Response } from 'express'
 /** local DB **/
 //import { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
 /** neon DB **/
-import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
-import {OAuth2Client} from 'google-auth-library'
-import User, {GetUserInputType} from './model/user'
-import Google,{VerifyGoogleInputType} from './auth/google'
-import nookies,{destroyCookie,setCookie} from 'nookies'
-
+import type { NeonHttpDatabase } from 'drizzle-orm/neon-http'
+import type { OAuth2Client } from 'google-auth-library'
+import nookies, { destroyCookie, setCookie } from 'nookies'
+import type { VerifyGoogleInputType } from './auth/google'
+import Google from './auth/google'
+import type { GetUserInputType } from './model/user'
+import User from './model/user'
 
 class GraphQL {
   private user: User
   private oauth2: Google
 
-  constructor(db: NeonHttpDatabase<Record<string, never>>,oauth2:OAuth2Client) {
+  constructor(
+    db: NeonHttpDatabase<Record<string, never>>,
+    oauth2: OAuth2Client,
+  ) {
     this.user = new User(db)
     this.oauth2 = new Google(oauth2)
   }
@@ -55,51 +60,71 @@ class GraphQL {
   `
   private resolvers = {
     Query: {
-      getUser: async (root:any,param:GetUserInputType,ctx:{req:Request,res:Response}) => {
-        if(!this.isAuthByCookie(ctx))throw "no auth"
+      getUser: async (
+        root: unknown,
+        param: GetUserInputType,
+        ctx: { req: Request; res: Response },
+      ) => {
+        if (!this.isAuthByCookie(ctx)) throw 'no auth'
         return await this.user.getUser(param)
       },
-      isAuthByIdToken: async (root:any,param:VerifyGoogleInputType,ctx:{req:Request,res:Response}) => {
+      isAuthByIdToken: async (
+        root: unknown,
+        param: VerifyGoogleInputType,
+        ctx: { req: Request; res: Response },
+      ) => {
         return await this.isAuthByIdToken(param)
       },
     },
     Mutation: {
-      googleLogin:async (root: any,p:VerifyGoogleInputType,ctx:{req:Request,res:Response}) =>{
-        if(!p.input?.idToken) throw "no idToken"
+      googleLogin: async (
+        root: unknown,
+        p: VerifyGoogleInputType,
+        ctx: { req: Request; res: Response },
+      ) => {
+        if (!p.input?.idToken) throw 'no idToken'
 
-        setCookie({res:ctx.res}, 'idToken', p.input?.idToken, {
+        setCookie({ res: ctx.res }, 'idToken', p.input?.idToken, {
           maxAge: 60 * 60,
           secure: true,
           path: '/',
-          httpOnly:true,
-          sameSite:'Lax'
-        }); 
+          httpOnly: true,
+          sameSite: 'Lax',
+        })
 
-        const res = await this.oauth2.verifyGoogle({input:{idToken:p.input?.idToken}})
-        const user = await this.user.getUserBySub({input:{sub:res.getPayload()?.sub || ''}})
-        if(!user){
+        const res = await this.oauth2.verifyGoogle({
+          input: { idToken: p.input?.idToken },
+        })
+        const user = await this.user.getUserBySub({
+          input: { sub: res.getPayload()?.sub || '' },
+        })
+        if (!user) {
           const param = {
-            input:{
-              name:res.getPayload()?.name || '',
-              email:res.getPayload()?.email || '',
-              sub:res.getPayload()?.sub || '',
-              provider:'google' ,
-              userType:'default'
-            }
+            input: {
+              name: res.getPayload()?.name || '',
+              email: res.getPayload()?.email || '',
+              sub: res.getPayload()?.sub || '',
+              provider: 'google',
+              userType: 'default',
+            },
           }
           return await this.user.createUser(param)
-        }else{
-          return user;
+        } else {
+          return user
         }
       },
-      googleLogout:async (root: any,{},ctx:{req:Request,res:Response}) =>{
+      googleLogout: async (
+        root: unknown,
+        {},
+        ctx: { req: Request; res: Response },
+      ) => {
         try {
-          destroyCookie({res:ctx.res},"idToken")
+          destroyCookie({ res: ctx.res }, 'idToken')
           return true
         } catch (error) {
           return false
         }
-      }
+      },
     },
   }
 
@@ -108,20 +133,28 @@ class GraphQL {
     resolvers: this.resolvers,
   })
 
-  private isAuthByCookie = async (ctx:{req:Request,res:Response}) => {
+  private isAuthByCookie = async (ctx: { req: Request; res: Response }) => {
     const cookie = nookies.get(ctx)
-    if(!cookie?.idToken) throw "no idToken"
-    const res = await this.oauth2.verifyGoogle({input:{idToken:cookie?.idToken}})
-    const me = await this.user.getUserBySub({input:{sub:res.getPayload()?.sub || ''}})
-    if(!me) return false
+    if (!cookie?.idToken) throw 'no idToken'
+    const res = await this.oauth2.verifyGoogle({
+      input: { idToken: cookie?.idToken },
+    })
+    const me = await this.user.getUserBySub({
+      input: { sub: res.getPayload()?.sub || '' },
+    })
+    if (!me) return false
     return true
   }
 
-  private isAuthByIdToken = async (param:VerifyGoogleInputType) => {
-    if(!param.input.idToken) return false
-    const res = await this.oauth2.verifyGoogle({input:{idToken:param.input.idToken}})
-    const me = await this.user.getUserBySub({input:{sub:res.getPayload()?.sub || ''}})
-    if(!me) return false
+  private isAuthByIdToken = async (param: VerifyGoogleInputType) => {
+    if (!param.input.idToken) return false
+    const res = await this.oauth2.verifyGoogle({
+      input: { idToken: param.input.idToken },
+    })
+    const me = await this.user.getUserBySub({
+      input: { sub: res.getPayload()?.sub || '' },
+    })
+    if (!me) return false
     return true
   }
 }

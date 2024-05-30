@@ -14,8 +14,14 @@ type Props = {
 export default HoCAuth(function Home(props:Props) {
   return (
     <main>
-      <div className="w-screen min-h-screen grid place-items-center bg-gray-400">
-        <Link type="button" href={`/book?sub=${props?.searchParams?.sub}`} className="text-gray-900 bg-white border" >Bookへ</Link>
+      <div className="grid min-h-screen w-screen place-items-center bg-gray-400">
+        <Link
+          type="button"
+          href={`/book?sub=${props?.searchParams?.sub}`}
+          className="border bg-white text-gray-900"
+        >
+          Bookへ
+        </Link>
       </div>
     </main>
   )

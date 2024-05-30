@@ -3,7 +3,11 @@ import React, {useState,useEffect} from 'react'
 import { useRouter } from 'next/navigation';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import {GoogleLoginWrapper} from '../components/GoogleLoginWrapper'
-import {GoogleLoginMutation,GoogleLogoutMutation,GoogleLogoutDocument } from '../../graphql/generated/graphql'
+import type {
+  GoogleLoginMutation,
+  GoogleLogoutMutation,
+} from '../../graphql/generated/graphql'
+import { GoogleLogoutDocument } from '../../graphql/generated/graphql'
 import client from '../../lib/client'
 
 type Props = {
