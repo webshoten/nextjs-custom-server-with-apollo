@@ -1,6 +1,6 @@
 function Sidebar() {
   return (
-    <div className="absolute hidden h-full bg-custom-blue text-white shadow-md  sm:block sm:w-64">
+    <div className="absolute block size-full bg-custom-blue/90  text-white shadow-md sm:w-64  ">
       <nav className="text-base font-semibold ">
         <a
           href=""

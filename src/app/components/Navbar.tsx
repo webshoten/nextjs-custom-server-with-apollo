@@ -5,7 +5,7 @@ export default function Navbar(props: { onToggle: () => void }) {
     <div className="h-16 w-full bg-custom-blue text-white shadow-md">
       <nav className="flex h-full items-center justify-between px-8">
         <div>
-          <button onClick={props.onToggle}>
+          <button className="block sm:hidden" onClick={props.onToggle}>
             <svg
               className="size-6"
               fill="none"
