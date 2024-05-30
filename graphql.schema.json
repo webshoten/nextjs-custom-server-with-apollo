@@ -147,22 +147,9 @@
             "deprecationReason": null
           },
           {
-            "name": "isAuthByIdToken",
+            "name": "isAuthByCookie",
             "description": null,
-            "args": [
-              {
-                "name": "input",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "GoogleLoginInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
+            "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "Boolean",

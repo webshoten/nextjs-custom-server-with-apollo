@@ -1,13 +1,10 @@
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import type { IsAuthByIdTokenQuery } from '../../graphql/generated/graphql'
-import { IsAuthByIdTokenDocument } from '../../graphql/generated/graphql'
-import { getRscClient } from '../../lib/rscClient'
+'use client'
 
+import IsAuth from '@/app/components/IsAuth'
+import { ApolloProvider } from '@apollo/client'
+import client from '../../lib/client'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Props = any
-
-type ElementInterface = Promise<React.JSX.Element> | React.JSX.Element
 
 /**
  * High Order Component
@@ -15,25 +12,16 @@ type ElementInterface = Promise<React.JSX.Element> | React.JSX.Element
  * @returns
  */
 export const HoCAuth = (
-  WrapedComponent: (props: Props) => ElementInterface,
+  WrapedComponent: (props: Props) => React.JSX.Element,
 ) => {
-  const withAuth = async (props: Props) => {
-    const idToken = cookies().get('idToken')?.value
-
-    const {
-      data: queryData,
-      errors,
-      loading,
-    } = await getRscClient().query<IsAuthByIdTokenQuery>({
-      query: IsAuthByIdTokenDocument,
-      variables: { input: { idToken } },
-    })
-
-    if (queryData.isAuthByIdToken) {
-      return <WrapedComponent {...props} />
-    } else {
-      redirect(`/login`)
-    }
+  const withAuth = (props: Props) => {
+    return (
+      <ApolloProvider client={client}>
+        <IsAuth>
+          <WrapedComponent {...props} />
+        </IsAuth>
+      </ApolloProvider>
+    )
   }
 
   return withAuth

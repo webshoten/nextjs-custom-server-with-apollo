@@ -6,7 +6,7 @@ import type { Request, Response } from 'express'
 /** neon DB **/
 import type { NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import type { OAuth2Client } from 'google-auth-library'
-import nookies, { destroyCookie, setCookie } from 'nookies'
+import nookies, { destroyCookie, setCookie, parseCookies } from 'nookies'
 import type { VerifyGoogleInputType } from './auth/google'
 import Google from './auth/google'
 import type { GetUserInputType } from './model/user'
@@ -50,7 +50,7 @@ class GraphQL {
 
   type Query {
     getUser(input: GetUserInput): User
-    isAuthByIdToken(input: GoogleLoginInput): Boolean
+    isAuthByCookie: Boolean
   }
 
   type Mutation {
@@ -68,12 +68,12 @@ class GraphQL {
         if (!this.isAuthByCookie(ctx)) throw 'no auth'
         return await this.user.getUser(param)
       },
-      isAuthByIdToken: async (
+      isAuthByCookie: async (
         root: unknown,
-        param: VerifyGoogleInputType,
+        {},
         ctx: { req: Request; res: Response },
       ) => {
-        return await this.isAuthByIdToken(param)
+        return await this.isAuthByCookie(ctx)
       },
     },
     Mutation: {
@@ -135,7 +135,7 @@ class GraphQL {
 
   private isAuthByCookie = async (ctx: { req: Request; res: Response }) => {
     const cookie = nookies.get(ctx)
-    if (!cookie?.idToken) throw 'no idToken'
+    if (!cookie?.idToken) return false
     const res = await this.oauth2.verifyGoogle({
       input: { idToken: cookie?.idToken },
     })

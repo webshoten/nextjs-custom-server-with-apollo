@@ -28,23 +28,25 @@ export default function Login(props:Props) {
     return queryData
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(props)
-    if(Object.keys(user).length !== 0){
-        router.push(`/?sub=${user?.googleLogin?.sub}`)
-    }else{
-        logout().then((data)=>{
-            console.log(data)
-            router.replace('/login');
-        })
+    if (Object.keys(user).length !== 0) {
+      router.push(`/?sub=${user?.googleLogin?.sub}`)
+    } else {
+      logout().then((data) => {
+        console.log(data)
+        router.replace('/login')
+      })
     }
-  },[user])
+  }, [user])
 
   return (
     <main>
-      <div className="w-screen min-h-screen grid place-items-center bg-gray-400">
-        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '' }>
-          <GoogleLoginWrapper setUser={setUser}/>
+      <div className="grid min-h-screen w-screen place-items-center bg-gray-400">
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}
+        >
+          <GoogleLoginWrapper setUser={setUser} />
         </GoogleOAuthProvider>
       </div>
     </main>

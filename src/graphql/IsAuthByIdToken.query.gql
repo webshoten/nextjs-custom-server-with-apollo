@@ -1,3 +1,0 @@
-query IsAuthByIdToken($input: GoogleLoginInput) {
-  isAuthByIdToken(input: $input)
-}

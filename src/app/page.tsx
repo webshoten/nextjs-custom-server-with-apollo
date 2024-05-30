@@ -1,4 +1,8 @@
-import Link from 'next/link'
+'use client'
+
+import Navbar from '@/app/components/Navbar'
+import Sidebar from '@/app/components/Sidebar'
+import { useState } from 'react'
 import { HoCAuth } from './components/HoCAuth'
 
 type Props = {
@@ -7,17 +11,12 @@ type Props = {
 }
 
 export default HoCAuth(function Home(props: Props) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
   return (
-    <main>
-      <div className="grid min-h-screen w-screen place-items-center bg-gray-400">
-        <Link
-          type="button"
-          href={`/book?sub=${props?.searchParams?.sub}`}
-          className="border bg-white text-gray-900"
-        >
-          Bookへ
-        </Link>
-      </div>
-    </main>
+    <>
+      <Navbar onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
+      <Sidebar />
+    </>
   )
 })
