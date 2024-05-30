@@ -6,7 +6,7 @@ import type { Request, Response } from 'express'
 /** neon DB **/
 import type { NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import type { OAuth2Client } from 'google-auth-library'
-import nookies, { destroyCookie, setCookie, parseCookies } from 'nookies'
+import nookies, { destroyCookie, setCookie } from 'nookies'
 import type { VerifyGoogleInputType } from './auth/google'
 import Google from './auth/google'
 import type { GetUserInputType } from './model/user'

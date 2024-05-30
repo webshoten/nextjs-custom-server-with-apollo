@@ -11,7 +11,11 @@ type Props = {
 export default HoCAuth(function Home(props: Props) {
   return (
     <>
-      <Layout {...props}>tttxxx</Layout>
+      <Layout {...props}>
+        <div className="grid min-h-screen w-screen bg-gray-400 p-5 sm:p-10">
+          fffffs
+        </div>
+      </Layout>
     </>
   )
 })

@@ -10,7 +10,7 @@ interface Props {
   children: ReactNode
 }
 
-const IsAuth = ({ children }: Props) => {
+const IsAuth = (props: Props) => {
   const [isAuth, setIsAuth] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -41,7 +41,7 @@ const IsAuth = ({ children }: Props) => {
         </>
       )}
       {error && <>error</>}
-      {isAuth && children}
+      {isAuth && props.children}
     </>
   )
 }

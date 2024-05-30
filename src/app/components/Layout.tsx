@@ -14,7 +14,7 @@ interface Props {
 
 export default function Layout(props: Props) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-  const [isMobile, setIsMobile] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
   const { width } = UseWindowSize()
 
   useEffect(() => {
