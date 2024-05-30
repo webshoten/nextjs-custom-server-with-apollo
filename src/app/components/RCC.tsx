@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect,useState } from 'react'
+import { useState } from 'react'
 import client from '../../lib/client'
 import type { UserQuery } from '../../graphql/generated/graphql'
 import { UserDocument } from '../../graphql/generated/graphql'
