@@ -36,7 +36,11 @@ export function RCC(props:Props) {
 
   return (
     <div>
-      {Object.keys(user).length !== 0 ? <p>{user?.getUser?.name}の予約を開始します</p> : <>Loading...</>}
+      {Object.keys(user).length !== 0 ? (
+        <p>{user?.getUser?.name}さんによる予約を開始します</p>
+      ) : (
+        <>Loading...</>
+      )}
     </div>
   )
 }
