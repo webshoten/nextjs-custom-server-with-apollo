@@ -10,6 +10,9 @@ import type { Dayjs } from 'dayjs'
 import { nowDate, targetDateF } from '@/app/utils/dayjs'
 import Time from '@/app/components/Time'
 import BookDetailModal from '@/app/components/BookDetailModal'
+import client from '../../lib/client'
+import type { CreateBookMutation } from '../../graphql/generated/graphql'
+import { CreateBookDocument } from '../../graphql/generated/graphql'
 
 type Props = {
   params: { [key: string]: string }
@@ -18,6 +21,7 @@ type Props = {
 
 export default HoCAuth(function Book(props: Props) {
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpen2, setIsOpen2] = useState(false)
   const [mode, setMode] = useState<'day' | 'time'>('day')
   const [selectDayjs, setSelectDayjs] = useState<Dayjs>(nowDate())
   const [monthDiff, setMonthDiff] = useState(0)
@@ -28,12 +32,41 @@ export default HoCAuth(function Book(props: Props) {
   return (
     <Layout {...props}>
       <BookDetailModal
+        open={isOpen2}
+        onCancel={() => setIsOpen2(false)}
+        onOk={() => {
+          setIsOpen2(false)
+        }}
+        okLabel="OK"
+        title="成功"
+      >
+        登録が完了しました。
+      </BookDetailModal>
+
+      <BookDetailModal
         open={isOpen}
         onCancel={() => setIsOpen(false)}
-        onOk={() => {
+        onOk={async () => {
+          const { data } = await client.mutate<CreateBookMutation>({
+            mutation: CreateBookDocument,
+            variables: {
+              input: {
+                sub: '', //server側でtokenからセットしなおすため空白
+                day: Number(targetDateF(selectDayjs, 'YYYYMMDD')),
+                time: selectH,
+                bookType: '1',
+              },
+            },
+          })
+          if (
+            data &&
+            data?.createBook &&
+            data?.createBook.length === selectH.length
+          ) {
+            console.log('success')
+          }
           setIsOpen(false)
-          console.log(selectH)
-          console.log(targetDateF(selectDayjs, 'YYYYMMDD'))
+          setIsOpen2(true)
         }}
         okLabel="登録"
         closeLabel="閉じる"

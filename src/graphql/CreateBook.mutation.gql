@@ -1,0 +1,11 @@
+mutation CreateBook($input: CreateBookInput) {
+  createBook(input: $input) {
+    bookId
+    day
+    time
+    sub
+    bookType
+    createdAt
+    updatedAt
+  }
+}

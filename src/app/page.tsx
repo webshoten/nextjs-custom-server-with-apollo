@@ -64,11 +64,20 @@ export default HoCAuth(function Home(props: Props) {
             bookDetails?.length > 0 ? bookDetails[0].day.toString() : 'none'
           }
         >
-          {bookDetails.map((b) => `${b.time}時~${b.time + 1}時`).join()}
+          {bookDetails
+            .sort((a, b) => a.time - b.time)
+            .map((book, i) => (
+              <p key={i}>
+                {book.time.toString() +
+                  '時~' +
+                  (book.time + 1).toString() +
+                  '時'}
+              </p>
+            ))}
         </BookDetailModal>
         <main className="col-span-4 grid gap-4 p-4 md:col-span-8">
           <p>いちらんです詳細をみるにはクリックしてください。</p>
-          <div className="grid grid-cols-2 gap-1 text-white sm:grid-cols-4">
+          <div className="grid w-full grid-cols-2 gap-1 text-white sm:grid-cols-4 xl:w-8/12">
             {loading && (
               <div className="bg-slate-800 p-4 text-center">Loading...</div>
             )}

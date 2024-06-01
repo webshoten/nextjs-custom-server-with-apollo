@@ -92,7 +92,7 @@ class GraphQL {
         param: GetUserInputType,
         ctx: { req: Request; res: Response },
       ) => {
-        if (!this.getAuthSubByCookie(ctx)) throw 'no auth'
+        if (!(await this.getAuthSubByCookie(ctx))) throw 'no auth'
         return await this.user.getUser(param)
       },
       getAuthSubByCookie: async (
@@ -116,16 +116,20 @@ class GraphQL {
         param: CreateBookInputType,
         ctx: { req: Request; res: Response },
       ) => {
-        debugger
-        console.log(param)
+        const sub = await this.getAuthSubByCookie(ctx)
+        if (!sub) throw 'no auth'
 
-        const check = await this.book.getBookByDayTime(param)
+        //tokenから取得したsubで上書き
+        const _param = { input: { ...param.input, sub } }
+
+        //すでに予約があれば'already exists'
+        const check = await this.book.getBookByDayTime(_param)
         if (check.length > 0) {
           throw 'already exists'
         }
 
-        const res = await this.book.createBook(param)
-
+        //登録
+        const res = await this.book.createBook(_param)
         /** トランザクションなしで一貫性を保ちたいため、登録予定と登録結果が異なれば登録済みを削除 */
         if (res.length > 0 && res.length !== param.input.time.length) {
           this.book.deleteBook({ input: { bookIds: res.map((r) => r.bookId) } })

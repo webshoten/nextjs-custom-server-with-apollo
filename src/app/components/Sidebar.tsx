@@ -11,7 +11,7 @@ function Sidebar(props: Props) {
       <nav className="text-base font-semibold ">
         <Link
           href="/login"
-          className="block p-4 hover:bg-gray-50 hover:text-custom-blue"
+          className="block p-4 hover:bg-gray-50  hover:text-custom-blue"
         >
           ログインへ
         </Link>
