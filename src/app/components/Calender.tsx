@@ -17,10 +17,13 @@ type ymd = { y: number; m: number; d: number }
 function Calender(props: {
   selectDayjs: Dayjs
   setSelectDayjs: Dispatch<SetStateAction<Dayjs>>
+  monthDiff: number
+  setMonthDiff: Dispatch<SetStateAction<number>>
+  isReset: boolean
+  setIsReset: Dispatch<SetStateAction<boolean>>
 }) {
   const weekHeader = ['日', '月', '火', '水', '木', '金', '土']
   const [list, setList] = useState<boxProps[]>([])
-  const [showMonthDiff, setShowMonthDiff] = useState(0)
 
   const prevMonthList = (
     y: number,
@@ -68,7 +71,7 @@ function Calender(props: {
 
     if (startOfMonthWeek === 0) {
       //初月日が日曜日の場合
-      tmpList = [...tmpList, ...middleList(y, m, d)]
+      tmpList = [...tmpList, ...middleList(y, m, endOfMonthDay)]
     } else {
       //初月日が日曜日ではない場合
       tmpList = [
@@ -115,14 +118,6 @@ function Calender(props: {
     }
   }
 
-  useEffect(() => {
-    setList(
-      JSON.parse(
-        JSON.stringify(culcList(nowDate().add(showMonthDiff, 'month'))),
-      ),
-    )
-  }, [showMonthDiff])
-
   const selectBox = (e: React.MouseEvent<HTMLButtonElement>) => {
     const ymd = JSON.parse(e.currentTarget.value) as ymd
     props.setSelectDayjs(
@@ -130,20 +125,34 @@ function Calender(props: {
         ymd.y.toString() + ('00' + ymd.m).slice(-2) + ('00' + ymd.d).slice(-2),
       ),
     )
+    props.setIsReset(false)
   }
 
   const prevMonth = () => {
-    setShowMonthDiff(showMonthDiff - 1)
+    props.setMonthDiff(props.monthDiff - 1)
   }
   const nextMonth = () => {
-    setShowMonthDiff(showMonthDiff + 1)
+    props.setMonthDiff(props.monthDiff + 1)
   }
+
+  useEffect(() => {
+    if (props.isReset) {
+      props.setSelectDayjs(nowDate())
+      props.setMonthDiff(0)
+    }
+    setList(
+      JSON.parse(
+        JSON.stringify(culcList(nowDate().add(props.monthDiff, 'month'))),
+      ),
+    )
+    props.setIsReset(false)
+  }, [props.monthDiff, props.isReset])
 
   return (
     <div>
       <div>
-        {targetYYYYMM(showMonthDiff)}
-        <div className="grid h-[460px] grid-cols-7 gap-4  xl:w-8/12">
+        {targetYYYYMM(props.monthDiff)}
+        <div className="grid h-[420px] w-full grid-cols-7 gap-4 xl:h-[450px] xl:w-8/12">
           {weekHeader.map((w, key) => (
             <button key={key}>{w}</button>
           ))}
