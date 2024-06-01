@@ -71,6 +71,20 @@
       "when": 1717073467686,
       "tag": "0009_deep_baron_zemo",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1717247833578,
+      "tag": "0010_mute_natasha_romanoff",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1717248050529,
+      "tag": "0011_mature_praxagora",
+      "breakpoints": true
     }
   ]
 }

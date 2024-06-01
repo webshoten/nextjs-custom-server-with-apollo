@@ -59,6 +59,7 @@ export default HoCAuth(function Home(props: Props) {
           open={isOpen}
           onCancel={() => setIsOpen(false)}
           onOk={() => setIsOpen(false)}
+          okLabel="OK"
           title={
             bookDetails?.length > 0 ? bookDetails[0].day.toString() : 'none'
           }

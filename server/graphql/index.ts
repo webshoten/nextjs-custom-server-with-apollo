@@ -11,7 +11,7 @@ import type { VerifyGoogleInputType } from './auth/google'
 import Google from './auth/google'
 import type { GetUserInputType } from './model/user'
 import User from './model/user'
-import type { GetBookBySubInputType } from './model/book'
+import type { GetBookBySubInputType, CreateBookInputType } from './model/book'
 import Book from './model/book'
 
 class GraphQL {
@@ -66,6 +66,13 @@ class GraphQL {
     sub: String!
   }
 
+  input CreateBookInput {
+    day: Int
+    time: [Int!]
+    sub: String
+    bookType: String
+  }
+
   type Query {
     getUser(input: GetUserInput): User
     getAuthSubByCookie: String
@@ -73,6 +80,7 @@ class GraphQL {
   }
 
   type Mutation {
+    createBook(input: CreateBookInput): [Book]
     googleLogin(input: GoogleLoginInput): User
     googleLogout: Boolean
   }
@@ -103,6 +111,29 @@ class GraphQL {
       },
     },
     Mutation: {
+      createBook: async (
+        root: unknown,
+        param: CreateBookInputType,
+        ctx: { req: Request; res: Response },
+      ) => {
+        debugger
+        console.log(param)
+
+        const check = await this.book.getBookByDayTime(param)
+        if (check.length > 0) {
+          throw 'already exists'
+        }
+
+        const res = await this.book.createBook(param)
+
+        /** トランザクションなしで一貫性を保ちたいため、登録予定と登録結果が異なれば登録済みを削除 */
+        if (res.length > 0 && res.length !== param.input.time.length) {
+          this.book.deleteBook({ input: { bookIds: res.map((r) => r.bookId) } })
+          return []
+        }
+
+        return res
+      },
       googleLogin: async (
         root: unknown,
         p: VerifyGoogleInputType,
