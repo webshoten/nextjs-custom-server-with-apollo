@@ -1,0 +1,8 @@
+query GetBookByMonth($input: GetBookByMonthInput) {
+  getBookByMonth(input: $input) {
+    day
+    time
+    subOnlyMe
+    bookType
+  }
+}

@@ -1,4 +1,4 @@
-import { and, eq, inArray } from 'drizzle-orm'
+import { and, between, eq, inArray } from 'drizzle-orm'
 import type { NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import { book } from '../../db/model'
 
@@ -40,6 +40,12 @@ export type DeleteBookInputType = {
   }
 }
 
+export type GetBookByMonthInput = {
+  input: {
+    yyyymm: number
+  }
+}
+
 class Book {
   private db
 
@@ -63,6 +69,20 @@ class Book {
         and(
           inArray(book.time, param.input.time),
           eq(book.day, param.input.day),
+        ),
+      )
+    return res
+  }
+
+  getBookByMonth = async (param: GetBookByMonthInput) => {
+    const res = await this.db
+      .select()
+      .from(book)
+      .where(
+        between(
+          book.day,
+          Number(param.input.yyyymm.toString() + '00'),
+          Number(param.input.yyyymm.toString() + '99'),
         ),
       )
     return res

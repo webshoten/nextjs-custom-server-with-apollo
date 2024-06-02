@@ -27,11 +27,23 @@ export type Book = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type BookNoId = {
+  __typename?: 'BookNoId';
+  bookType?: Maybe<Scalars['String']['output']>;
+  day?: Maybe<Scalars['Int']['output']>;
+  subOnlyMe?: Maybe<Scalars['String']['output']>;
+  time?: Maybe<Scalars['Int']['output']>;
+};
+
 export type CreateBookInput = {
   bookType?: InputMaybe<Scalars['String']['input']>;
   day?: InputMaybe<Scalars['Int']['input']>;
   sub?: InputMaybe<Scalars['String']['input']>;
   time?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
+export type GetBookByMonthInput = {
+  yyyymm?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type GetBookBySubInput = {
@@ -66,8 +78,14 @@ export type MutationGoogleLoginArgs = {
 export type Query = {
   __typename?: 'Query';
   getAuthSubByCookie?: Maybe<Scalars['String']['output']>;
+  getBookByMonth?: Maybe<Array<Maybe<BookNoId>>>;
   getBookBySub?: Maybe<Array<Maybe<Book>>>;
   getUser?: Maybe<User>;
+};
+
+
+export type QueryGetBookByMonthArgs = {
+  input?: InputMaybe<GetBookByMonthInput>;
 };
 
 
@@ -98,6 +116,13 @@ export type CreateBookMutationVariables = Exact<{
 
 
 export type CreateBookMutation = { __typename?: 'Mutation', createBook?: Array<{ __typename?: 'Book', bookId: string, day?: number | null, time?: number | null, sub?: string | null, bookType?: string | null, createdAt?: string | null, updatedAt?: string | null } | null> | null };
+
+export type GetBookByMonthQueryVariables = Exact<{
+  input?: InputMaybe<GetBookByMonthInput>;
+}>;
+
+
+export type GetBookByMonthQuery = { __typename?: 'Query', getBookByMonth?: Array<{ __typename?: 'BookNoId', day?: number | null, time?: number | null, subOnlyMe?: string | null, bookType?: string | null } | null> | null };
 
 export type GetBookBySubQueryVariables = Exact<{
   input?: InputMaybe<GetBookBySubInput>;
@@ -132,6 +157,7 @@ export type GetAuthSubByCookieQuery = { __typename?: 'Query', getAuthSubByCookie
 
 
 export const CreateBookDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateBook"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateBookInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBook"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookId"}},{"kind":"Field","name":{"kind":"Name","value":"day"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"sub"}},{"kind":"Field","name":{"kind":"Name","value":"bookType"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<CreateBookMutation, CreateBookMutationVariables>;
+export const GetBookByMonthDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBookByMonth"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GetBookByMonthInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getBookByMonth"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"day"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"subOnlyMe"}},{"kind":"Field","name":{"kind":"Name","value":"bookType"}}]}}]}}]} as unknown as DocumentNode<GetBookByMonthQuery, GetBookByMonthQueryVariables>;
 export const GetBookBySubDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBookBySub"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GetBookBySubInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getBookBySub"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookId"}},{"kind":"Field","name":{"kind":"Name","value":"day"}},{"kind":"Field","name":{"kind":"Name","value":"time"}},{"kind":"Field","name":{"kind":"Name","value":"sub"}},{"kind":"Field","name":{"kind":"Name","value":"bookType"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetBookBySubQuery, GetBookBySubQueryVariables>;
 export const UserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"User"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GetUserInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sub"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"provider"}},{"kind":"Field","name":{"kind":"Name","value":"userType"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<UserQuery, UserQueryVariables>;
 export const GoogleLoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"GoogleLogin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GoogleLoginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"googleLogin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sub"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"provider"}},{"kind":"Field","name":{"kind":"Name","value":"userType"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<GoogleLoginMutation, GoogleLoginMutationVariables>;

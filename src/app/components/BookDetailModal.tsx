@@ -17,12 +17,6 @@ const Modal = (props: ModalProps) => {
         <h1 className="mb-5 text-xl font-bold">{props.title}</h1>
         <div className="mb-5 text-lg">{props.children}</div>
         <div className="mt-auto flex w-full">
-          <button
-            className="mx-auto bg-slate-900 px-8 py-2 text-white hover:bg-slate-700"
-            onClick={() => props.onOk()}
-          >
-            {props.okLabel}
-          </button>
           {props.closeLabel && (
             <button
               className="mx-auto bg-slate-900 px-8 py-2 text-white hover:bg-slate-700"
@@ -31,6 +25,12 @@ const Modal = (props: ModalProps) => {
               {props.closeLabel}
             </button>
           )}
+          <button
+            className="mx-auto bg-slate-900 px-8 py-2 text-white hover:bg-slate-700"
+            onClick={() => props.onOk()}
+          >
+            {props.okLabel}
+          </button>
         </div>
       </div>
       <div

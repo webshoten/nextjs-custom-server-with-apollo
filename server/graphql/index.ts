@@ -11,7 +11,11 @@ import type { VerifyGoogleInputType } from './auth/google'
 import Google from './auth/google'
 import type { GetUserInputType } from './model/user'
 import User from './model/user'
-import type { GetBookBySubInputType, CreateBookInputType } from './model/book'
+import type {
+  GetBookBySubInputType,
+  CreateBookInputType,
+  GetBookByMonthInput,
+} from './model/book'
 import Book from './model/book'
 
 class GraphQL {
@@ -50,6 +54,13 @@ class GraphQL {
     updatedAt: String
   }
 
+  type BookNoId {
+    day: Int
+    time: Int
+    subOnlyMe: String
+    bookType: String
+  }
+
   input GetUserInput {
     sub: String!
   }
@@ -73,10 +84,15 @@ class GraphQL {
     bookType: String
   }
 
+  input GetBookByMonthInput {
+    yyyymm: Int
+  }
+
   type Query {
     getUser(input: GetUserInput): User
     getAuthSubByCookie: String
     getBookBySub(input: GetBookBySubInput): [Book]
+    getBookByMonth(input: GetBookByMonthInput): [BookNoId]
   }
 
   type Mutation {
@@ -108,6 +124,23 @@ class GraphQL {
         ctx: { req: Request; res: Response },
       ) => {
         return await this.book.getBookBySub(param)
+      },
+      getBookByMonth: async (
+        root: unknown,
+        param: GetBookByMonthInput,
+        ctx: { req: Request; res: Response },
+      ) => {
+        const sub = await this.getAuthSubByCookie(ctx)
+        if (!sub) throw 'no auth'
+        const res = await this.book.getBookByMonth(param)
+        return res.map((r) => {
+          return {
+            day: r.day,
+            time: r.time,
+            subOnlyMe: sub === r.sub ? r.sub : '*',
+            bookType: r.bookType,
+          }
+        })
       },
     },
     Mutation: {

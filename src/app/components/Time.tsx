@@ -1,3 +1,5 @@
+import type { BookProps } from '@/app/book/page'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, type Dispatch, type SetStateAction } from 'react'
 
 type boxProps = {
@@ -10,6 +12,7 @@ type Props = {
   setSelectH: Dispatch<SetStateAction<number[]>>
   isReset: boolean
   setIsReset: Dispatch<SetStateAction<boolean>>
+  time?: BookProps[]
 }
 
 function Time(props: Props) {
@@ -34,17 +37,46 @@ function Time(props: Props) {
     { h: 23, isTarget: true },
     { h: 24, isTarget: true },
   ]
+  const searchParams = useSearchParams()
+  const sub = searchParams.get('sub')
 
   const boxStyle = (box: boxProps) => {
     const boxH = box.h
     const selectH = props.selectH
-    if (box.isTarget && !selectH.includes(boxH)) {
-      return 'bg-slate-800 text-white'
-    } else if (box.isTarget && selectH.includes(boxH)) {
-      return 'bg-orange-400 text-black'
-    } else {
-      return 'bg-gray-50 text-black'
+    const isTarget = box.isTarget
+    const isSelect = selectH.includes(boxH)
+    const isMe =
+      props?.time?.filter((t) => {
+        return t?.time === boxH && t?.subOnlyMe === sub
+      }) &&
+      props?.time?.filter((t) => {
+        return t?.time === boxH && t?.subOnlyMe === sub
+      })?.length > 0
+    const isSomeone =
+      props?.time?.filter((t) => {
+        return t?.time === boxH && t?.subOnlyMe === '*'
+      }) &&
+      props?.time?.filter((t) => {
+        return t?.time === boxH && t?.subOnlyMe === '*'
+      })?.length > 0
+
+    let boxstyle = ''
+
+    if (isTarget && isSelect) {
+      boxstyle += 'text-orange-500 font-extrabold '
     }
+
+    if (isTarget && !isSelect && isMe) {
+      boxstyle += 'bg-blue-500 text-white '
+    } else if (isTarget && !isSelect && isSomeone) {
+      boxstyle += 'bg-green-500 text-white '
+    } else if (isTarget && !isSelect && !isMe && !isSomeone) {
+      boxstyle += 'bg-slate-800 text-white '
+    } else {
+      boxstyle += 'bg-gray-50 text-black '
+    }
+
+    return boxstyle
   }
 
   const selectBox = (e: React.MouseEvent<HTMLButtonElement>) => {

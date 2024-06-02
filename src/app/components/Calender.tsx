@@ -9,6 +9,8 @@ import {
   startOfMonth,
   targetDateF,
 } from '../utils/dayjs'
+import type { BookProps } from '@/app/book/page'
+import { useSearchParams } from 'next/navigation'
 
 type boxProps = { ymd: ymd; isTarget: boolean }
 
@@ -21,10 +23,13 @@ function Calender(props: {
   setMonthDiff: Dispatch<SetStateAction<number>>
   isReset: boolean
   setIsReset: Dispatch<SetStateAction<boolean>>
+  book: BookProps[]
 }) {
+  const searchParams = useSearchParams()
+  const sub = searchParams.get('sub')
   const weekHeader = ['日', '月', '火', '水', '木', '金', '土']
   const [list, setList] = useState<boxProps[]>([])
-
+  const dayBook = Object.groupBy(props.book, ({ day }) => day ?? 0)
   const prevMonthList = (
     y: number,
     m: number,
@@ -58,7 +63,7 @@ function Calender(props: {
     return tmplist
   }
 
-  const culcList = (target: Dayjs) => {
+  const culcBaseList = (target: Dayjs) => {
     let tmpList: boxProps[] = []
     const y = Number(targetDateF(target, 'YYYY').toString())
     const m = Number(targetDateF(target, 'M').toString())
@@ -88,7 +93,6 @@ function Calender(props: {
       //最終日が日曜日ではない場合
       tmpList = [...tmpList, ...nextMonthList(y, m, endOfMonthWeek)]
     }
-
     return tmpList
   }
 
@@ -102,20 +106,42 @@ function Calender(props: {
   }
 
   const boxStyle = (box: boxProps) => {
-    const boxymd =
-      box.ymd.y.toString() + box.ymd.m.toString() + box.ymd.d.toString()
-    const selectymd =
-      targetDateF(props.selectDayjs, 'YYYY') +
-      targetDateF(props.selectDayjs, 'M') +
-      targetDateF(props.selectDayjs, 'D')
+    const boxyyyymmdd =
+      box.ymd.y.toString() +
+      ('00' + box.ymd.m).slice(-2) +
+      ('00' + box.ymd.d).slice(-2)
 
-    if (box.isTarget && boxymd !== selectymd) {
-      return 'bg-slate-800 text-white'
-    } else if (box.isTarget && boxymd === selectymd) {
-      return 'bg-orange-400 text-black'
-    } else {
-      return 'bg-gray-50 text-black'
+    const selectyyyymmdd =
+      targetDateF(props.selectDayjs, 'YYYY') +
+      targetDateF(props.selectDayjs, 'MM') +
+      targetDateF(props.selectDayjs, 'DD')
+
+    const isTarget = box.isTarget
+    const isSelect = boxyyyymmdd === selectyyyymmdd
+    const isMe = dayBook[Number(boxyyyymmdd)]
+      ?.map((b) => b.subOnlyMe)
+      .includes(sub)
+    const isSomeone =
+      !isMe &&
+      dayBook[Number(boxyyyymmdd)]?.map((b) => b.subOnlyMe).includes('*')
+
+    let boxstyle = ''
+
+    if (isTarget && isSelect) {
+      boxstyle += 'text-orange-500 font-extrabold '
     }
+
+    if (isTarget && !isSelect && isMe) {
+      boxstyle += 'bg-blue-500 text-white '
+    } else if (isTarget && !isSelect && isSomeone) {
+      boxstyle += 'bg-green-500 text-white '
+    } else if (isTarget && !isSelect && !isMe && !isSomeone) {
+      boxstyle += 'bg-slate-800 text-white '
+    } else {
+      boxstyle += 'bg-gray-50 text-black '
+    }
+
+    return boxstyle
   }
 
   const selectBox = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -134,19 +160,15 @@ function Calender(props: {
   const nextMonth = () => {
     props.setMonthDiff(props.monthDiff + 1)
   }
-
   useEffect(() => {
     if (props.isReset) {
       props.setSelectDayjs(nowDate())
       props.setMonthDiff(0)
     }
-    setList(
-      JSON.parse(
-        JSON.stringify(culcList(nowDate().add(props.monthDiff, 'month'))),
-      ),
-    )
+    const baseList = culcBaseList(nowDate().add(props.monthDiff, 'month'))
+    setList(JSON.parse(JSON.stringify(baseList)))
     props.setIsReset(false)
-  }, [props.monthDiff, props.isReset])
+  }, [props.monthDiff, props.isReset, props.book])
 
   return (
     <div>
@@ -170,7 +192,7 @@ function Calender(props: {
       </div>
 
       <button
-        className="mt-4 h-16 w-full bg-custom-blue p-2 text-white xl:w-8/12"
+        className=" mt-4 h-16 w-full bg-custom-blue p-2 text-white xl:w-8/12"
         onClick={prevMonth}
       >
         前の月へ
